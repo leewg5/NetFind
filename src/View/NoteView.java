@@ -1,6 +1,4 @@
-package view;
-
-import Model.NoteDao.NoteDao;
+package View;
 
 public class NoteView {
 
