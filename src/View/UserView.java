@@ -8,4 +8,5 @@ public class UserView {
     public static UserView getInstance() {
         return instance;
     }
+    // 오홍홍
 }
