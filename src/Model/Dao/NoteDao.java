@@ -1,10 +1,9 @@
-package Model.NoteDao;
+package Model.Dao;
 
-import Model.NoteDto.NoteDto;
+import Model.Dto.NoteDto;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 
 public class NoteDao {
 

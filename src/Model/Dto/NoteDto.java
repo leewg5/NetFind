@@ -1,4 +1,4 @@
-package Model.NoteDto;
+package Model.Dto;
 
 public class NoteDto {
 
