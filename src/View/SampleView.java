@@ -7,4 +7,6 @@ public class SampleView {
     public static SampleView getInstance(){
         return instance;
     }
+
+
 }// class e
