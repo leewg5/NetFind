@@ -33,14 +33,84 @@ public class UserDto {
     }
 
     // 3) 사용자정보수정 생성자
-
     public UserDto(String uphone, String ubname) {
         this.uphone = uphone;
         this.ubname = ubname;
     }
 
+    // 4) 비밀번호체크 생성자
+    public UserDto(String upwd) {
+        this.upwd = upwd;
+    }
 
-    // 3. 메소드
 
+    // 3. 메소드 getter and setter , toString
+    public int getUno() {
+        return uno;
+    }
 
+    public void setUno(int uno) {
+        this.uno = uno;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getUpwd() {
+        return upwd;
+    }
+
+    public void setUpwd(String upwd) {
+        this.upwd = upwd;
+    }
+
+    public String getUphone() {
+        return uphone;
+    }
+
+    public void setUphone(String uphone) {
+        this.uphone = uphone;
+    }
+
+    public String getUbname() {
+        return ubname;
+    }
+
+    public void setUbname(String ubname) {
+        this.ubname = ubname;
+    }
+
+    public String getUbnumber() {
+        return ubnumber;
+    }
+
+    public void setUbnumber(String ubnumber) {
+        this.ubnumber = ubnumber;
+    }
+
+    public String getUblocation() {
+        return ublocation;
+    }
+
+    public void setUblocation(String ublocation) {
+        this.ublocation = ublocation;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "uno=" + uno +
+                ", uid='" + uid + '\'' +
+                ", upwd='" + upwd + '\'' +
+                ", uphone='" + uphone + '\'' +
+                ", ubname='" + ubname + '\'' +
+                ", ubnumber='" + ubnumber + '\'' +
+                ", ublocation='" + ublocation + '\'' +
+                '}';
+    }
 }
