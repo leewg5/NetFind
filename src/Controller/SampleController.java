@@ -9,4 +9,5 @@ public class SampleController {
     public static SampleController getInstance(){
         return instance;
     }
-}
+
+}// class e
