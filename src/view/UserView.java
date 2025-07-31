@@ -93,7 +93,7 @@ public class UserView {
                 System.out.println("========================================================================");
                 int selectProduct = scan.nextInt();
                 if (selectProduct == 1){
-                    // productAdd();
+                    productAdd();
                 } else if (selectProduct == 2) {
                     // productUpdate();
                 } else if (selectProduct == 3) {
@@ -176,8 +176,13 @@ public class UserView {
         System.out.println("=============================================");
     } // func end
 
-    // 1-5 로그인
+    // 1-5) 로그인
     // admin일 경우 adminMain, 그 외의 회원일 경우 main으로 이동
 
+
+    // 3-1) 제품 등록
+    public void productAdd(){
+
+    }
 
 }
