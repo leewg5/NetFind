@@ -1,11 +1,6 @@
-<<<<<<<< HEAD:src/Model/Dao/NoteDao.java
-package Model.Dao;
-
-========
 package model.dao;
 
 import model.dto.NoteDto;
->>>>>>>> 51ea63f3f5cc127eb817590324a25281ce506208:src/model/dao/NoteDao.java
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
