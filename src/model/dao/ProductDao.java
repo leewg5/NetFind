@@ -114,8 +114,6 @@ public class ProductDao {
         }
     }
 
-    public boolean productDelete() {
-
     // 4. 제품 수정
     public boolean productUpdate(ProductDto dto) {
         try {
@@ -138,6 +136,7 @@ public class ProductDao {
         }
     }
 
+    // 5. 제품 삭제
     public boolean productDelete(int pno) {
         try {
             // 1. 제품 삭제 sql문
