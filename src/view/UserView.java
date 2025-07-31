@@ -46,7 +46,7 @@ public class UserView {
             if (select == 1) {
                 // login();
             } else if (select == 2) {
-                // userAdd();
+                userAdd();
             }
         } // for end
     }
@@ -59,6 +59,7 @@ public class UserView {
     // 1-1 사용자등록(회원가입)
     // 아이디, 비밀번호, 연락처, 사용자명, 사업자명, 사업자번호, 사업장주소를 입력 받아 DB에 저장한다.
     public void userAdd(){
+        // 1. 입력 받기
         scan.nextLine(); // 버퍼 문제 해결
         System.out.println("=========== 회원 가입 페이지입니다 ============");
         System.out.print("아이디 : ");
@@ -76,7 +77,16 @@ public class UserView {
         System.out.print("사업장주소 : ");
         String ublocation = scan.nextLine();
         System.out.println("=============================================");
-    }
+        // 2. 컨트롤러에 전달 후 리턴값 저장
+        boolean result = userController.userAdd(uid, upwd, uphone, uname, ubname, ubnumber, ublocation);
+        // 3. 리턴값 출력
+        if (result){
+            System.out.println("[안내] 회원가입 성공");
+        } else {
+            System.out.println("[경고] 회원가입 실패");
+        }
+        System.out.println("=============================================");
+    } // func end
 
     // 1-5 로그인
 

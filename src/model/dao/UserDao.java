@@ -2,17 +2,33 @@ package model.dao;
 
 import model.dto.UserDto;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
 public class UserDao {
     // (*) 싱글톤
-    private UserDao(){}
+    private UserDao(){ connect(); } // 연동 함수 생성자에 넣기
     private static final UserDao instance = new UserDao();
     public static UserDao getInstance() {
         return instance;
     }
 
     // (*) DB 연동
+    private String db_url = "jdbc:mysql://localhost:3306/netFind";
+    private String db_user = "root";
+    private String db_password = "1234";
+    private Connection conn;
 
     // (*) 드라이버매니저 연동 함수
+    private void connect() {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(db_url , db_user , db_password);
+        } catch (Exception e){
+            System.out.println(e);
+        } // catch end
+    } // func end
 
     // (1) 사용자등록 (회원가입)
     // 아이디, 비밀번호, 연락처, 사용자명, 사업자명, 사업자번호, 사업장주소를 입력 받아 DB에 저장한다.
@@ -24,12 +40,31 @@ public class UserDao {
     //String ubnumber
     //String ublocation
     // 반환 불리언
-    public boolean userAdd(){
-        // 1. SQL 작성
-        // 2. SQL 기재
-        // 3. SQl 매개변수 대입
-        // 4. SQL 실행 : excuteUpdate()
-        // 5. SQL 결과에 따른 로직/리턴/확인
+    public boolean userAdd(UserDto userDto){
+        try {
+            // 1. SQL 작성
+            String sql = "insert into user(uid, upwd, uphone, uname, ubname, ubnumber, ublocation) values (?, ?, ?, ?, ?, ?, ?);";
+            // 2. SQL 기재
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // 3. SQl 매개변수 대입
+            ps.setString(1, userDto.getUid());
+            ps.setString(2, userDto.getUpwd());
+            ps.setString(3, userDto.getUphone());
+            ps.setString(4, userDto.getUname());
+            ps.setString(5, userDto.getUbname());
+            ps.setString(6, userDto.getUbnumber());
+            ps.setString(7, userDto.getUblocation());
+            // 4. SQL 실행 : excuteUpdate()
+            int count = ps.executeUpdate();
+            // 5. SQL 결과에 따른 로직/리턴/확인
+            if (count >= 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        } // catch end
         return false;
     } // func end
 
