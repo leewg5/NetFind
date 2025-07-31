@@ -1,7 +1,7 @@
 package controller;
 
-import Model.dao.ProductDao;
-import Model.dto.ProductDto;
+import model.dao.ProductDao;
+import model.dto.ProductDto;
 
 import java.util.ArrayList;
 
@@ -43,7 +43,7 @@ public class ProductController {
 
     // 6. 장바구니 등록
     public boolean cartAdd(int pno, int pstock) {
-        return dao.cartAdd(pno, pstock)
+        return dao.cartAdd(pno, pstock);
     }
 
     // 7. 장바구니 조회
