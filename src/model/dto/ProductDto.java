@@ -6,6 +6,7 @@ public class ProductDto {
     private boolean pstatus;
     private String sname, sspec, smaker, sunit;
 
+    // productAdd 에서 사용하는 생성자
     public ProductDto(int sno, int pprice, int pstock, boolean pstatus) {
         this.sno = sno;
         this.pprice = pprice;
@@ -13,6 +14,19 @@ public class ProductDto {
         this.pstatus = pstatus;
     }
 
+    // productPrint 에서 사용하는 생성자
+    public ProductDto(int pno, String sname, String sspec, String smaker, String sunit, int pprice, int pstock, boolean pstatus) {
+        this.pno = pno;
+        this.sname = sname;
+        this.sspec = sspec;
+        this.smaker = smaker;
+        this.sunit = sunit;
+        this.pprice = pprice;
+        this.pstock = pstock;
+        this.pstatus = pstatus;
+    }
+
+    // productUpdate 에서 사용하는 생성자
     public ProductDto(int pprice, int pstock, boolean pstatus, int pno) {
         this.pprice = pprice;
         this.pstock = pstock;
@@ -27,32 +41,6 @@ public class ProductDto {
         this.pprice = pprice;
         this.pstock = pstock;
         this.pstatus = pstatus;
-    }
-
-    public ProductDto(int no, String name, String spec, String maker, String unit, int price, int stock) {
-        this.pno = no;
-        this.sname = name;
-        this.sspec = spec;
-        this.smaker = maker;
-        this.sunit = unit;
-        this.pprice = price;
-        this.pstock = stock;
-    }
-
-    public String getSname() {
-        return sname;
-    }
-
-    public String getSspec() {
-        return sspec;
-    }
-
-    public String getSmaker() {
-        return smaker;
-    }
-
-    public String getSunit() {
-        return sunit;
     }
 
     public int getPno() {
@@ -103,6 +91,38 @@ public class ProductDto {
         this.pstatus = pstatus;
     }
 
+    public String getSname() {
+        return sname;
+    }
+
+    public void setSname(String sname) {
+        this.sname = sname;
+    }
+
+    public String getSspec() {
+        return sspec;
+    }
+
+    public void setSspec(String sspec) {
+        this.sspec = sspec;
+    }
+
+    public String getSmaker() {
+        return smaker;
+    }
+
+    public void setSmaker(String smaker) {
+        this.smaker = smaker;
+    }
+
+    public String getSunit() {
+        return sunit;
+    }
+
+    public void setSunit(String sunit) {
+        this.sunit = sunit;
+    }
+
     @Override
     public String toString() {
         return "ProductDto{" +
@@ -112,6 +132,10 @@ public class ProductDto {
                 ", pprice=" + pprice +
                 ", pstock=" + pstock +
                 ", pstatus=" + pstatus +
+                ", sname='" + sname + '\'' +
+                ", sspec='" + sspec + '\'' +
+                ", smaker='" + smaker + '\'' +
+                ", sunit='" + sunit + '\'' +
                 '}';
     }
 }
