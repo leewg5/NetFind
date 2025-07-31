@@ -7,4 +7,5 @@ public class SampleDao {
     public static SampleDao getInstance(){
         return instance;
     }
+
 }// class e

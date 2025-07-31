@@ -11,7 +11,7 @@ public class UserDto {
     private String ublocation;
 
     // 2. 생성자
-    // 1) 전체 생성자
+    // 2-1) 전체 생성자
     public UserDto(int uno, String uid, String upwd, String uphone, String ubname, String ubnumber, String ublocation) {
         this.uno = uno;
         this.uid = uid;
@@ -22,7 +22,7 @@ public class UserDto {
         this.ublocation = ublocation;
     }
 
-    // 2) 사용자등록 생성자
+    // 2-2) 사용자등록 생성자
     public UserDto(String uid, String upwd, String uphone, String ubname, String ubnumber, String ublocation) {
         this.uid = uid;
         this.upwd = upwd;
@@ -32,17 +32,20 @@ public class UserDto {
         this.ublocation = ublocation;
     }
 
-    // 3) 사용자정보수정 생성자
+    // 2-3) 사용자정보수정 생성자
     public UserDto(String uphone, String ubname) {
         this.uphone = uphone;
         this.ubname = ubname;
     }
 
-    // 4) 비밀번호체크 생성자
+    // 2-4) 비밀번호체크 생성자
     public UserDto(String upwd) {
         this.upwd = upwd;
     }
 
+    // 2-5) 매개변수 없이 빈 생성자
+    public UserDto() {
+    }
 
     // 3. 메소드 getter and setter , toString
     public int getUno() {
