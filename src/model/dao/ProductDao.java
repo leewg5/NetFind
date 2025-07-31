@@ -1,12 +1,15 @@
 package model.dao;
 
-import Model.dto.ProductDto;
+import controller.UserController;
+import model.dto.ProductDto;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
+import static controller.UserController.loginUno;
 
 public class ProductDao {
     // (*) 싱글톤
@@ -20,6 +23,7 @@ public class ProductDao {
     private String db_password = "1234";
     private Connection conn;
     private ArrayList<ProductDto> list = new ArrayList<>();
+    private ArrayList<ProductDto> cart = new ArrayList<>();
 
     // (*) 데이터베이스 연동
     public void connect() {
@@ -38,6 +42,7 @@ public class ProductDao {
             String sql = "insert into product(sno, uno, pprice, pstock, pstatus) values (?, ?, ?, ?, ?)";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
+            UserController.loginUno = 2;
             // 3. sql문에 필요한 데이터 삽입
             ps.setInt(1, dto.getSno());
             ps.setInt(2, loginUno); // 로그인한 사용자의 uno 삽입 (TODO)
@@ -154,19 +159,18 @@ public class ProductDao {
     public boolean cartAdd(int pno, int pstock) {
         try {
             // 1. 제품 조회 sql문
-            String sql = "select pno, pstock from product where pno = ?";
+            String sql = "select * from product where pno = ?";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. sql문에 필요한 데이터 삽입
             ps.setInt(1, pno);
             // 4. sql문 실행
             ResultSet rs = ps.executeQuery();
-            // 5. 레코드를 하나씩 객체로 만들어 cart에 삽입
+            // 5. 찾은 레코드를 cart에 삽입
+            rs.next();
+            int number = rs.getInt("pno");
+            int stock = rs.getInt("pstock");
 
-            while (rs.next()) {
-                int number = rs.getInt("pno");
-                int stock =
-            }
             // 5. 실행 후 반환
             return true; // 실행 완료 시 true 반환
         } catch (Exception e) {
