@@ -25,14 +25,14 @@ public class ProductController {
         return dao.productPrint();
     }
 
-    // 3. 전체 제품 조회 (매개변수 : uno)
-    public ArrayList<ProductDto> productPrint(int num) {
-        return dao.productPrint(num);
+    // 3. 전체 제품 조회 (매개변수 : int uno)
+    public ArrayList<ProductDto> productPrint(int uno) {
+        return dao.productPrint(uno);
     }
 
     // 4. 제품 수정
     public boolean productUpdate(int pno, int pprice, int pstock, boolean pstatus) {
-        ProductDto dto = new ProductDto(pno, pprice, pstock, pstatus);
+        ProductDto dto = new ProductDto(pprice, pstock, pstatus, pno);
         return dao.productUpdate(dto);
     }
 
@@ -42,18 +42,17 @@ public class ProductController {
     }
 
     // 6. 장바구니 등록
-    public boolean cartAdd(int pno, int pstock) {
-        return dao.cartAdd(pno, pstock);
+    public boolean cartAdd(int num, int stock) {
+        return dao.cartAdd(num, stock);
     }
 
     // 7. 장바구니 조회
     public ArrayList<ProductDto> cartPrint() {
-
+        return dao.cartPrint();
     }
 
     // 8. 장바구니 삭제
     public boolean cartDelete() {
-
+        return dao.cartDelete();
     }
-    */
 }

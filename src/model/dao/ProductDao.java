@@ -1,6 +1,5 @@
 package model.dao;
 
-import controller.UserController;
 import model.dto.ProductDto;
 
 import java.sql.Connection;
@@ -8,8 +7,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
-import static controller.UserController.loginUno;
 
 public class ProductDao {
     // (*) 싱글톤
@@ -22,8 +19,8 @@ public class ProductDao {
     private String db_user = "root";
     private String db_password = "1234";
     private Connection conn;
-    private ArrayList<ProductDto> list = new ArrayList<>();
-    private ArrayList<ProductDto> cart = new ArrayList<>();
+    private ArrayList<ProductDto> list = new ArrayList<>(); // 제품 목록 역할을 수행하는 ArrayList
+    private ArrayList<ProductDto> cart = new ArrayList<>(); // 장바구니 역할을 수행하는 ArrayList
 
     // (*) 데이터베이스 연동
     public void connect() {
@@ -42,10 +39,9 @@ public class ProductDao {
             String sql = "insert into product(sno, uno, pprice, pstock, pstatus) values (?, ?, ?, ?, ?)";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
-            UserController.loginUno = 2;
             // 3. sql문에 필요한 데이터 삽입
             ps.setInt(1, dto.getSno());
-            ps.setInt(2, loginUno); // 로그인한 사용자의 uno 삽입 (TODO)
+            ps.setInt(2, 2); // 로그인한 사용자의 static uno 삽입 (TODO)
             ps.setInt(3, dto.getPprice());
             ps.setInt(4, dto.getPstock());
             ps.setBoolean(5, dto.isPstatus());
@@ -63,7 +59,7 @@ public class ProductDao {
     public ArrayList<ProductDto> productPrint() {
         try {
             // 1. 제품 조회 sql문
-            String sql = "select * from product";
+            String sql = "select * from product join sample on product.sno = sample.sno";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. sql문 실행
@@ -71,12 +67,13 @@ public class ProductDao {
             // 4. 레코드를 하나씩 객체로 만들어 list에 삽입
             while (rs.next()) {
                 int pno = rs.getInt("pno");
-                int sno = rs.getInt("sno");
-                int uno = rs.getInt("uno");
+                String sname = rs.getString("sname");
+                String sspec = rs.getString("sspec");
+                String smaker = rs.getString("smaker");
+                String sunit = rs.getString("sunit");
                 int pprice = rs.getInt("pprice");
                 int pstock = rs.getInt("pstock");
-                boolean pstatus = rs.getBoolean("pstatus");
-                ProductDto record = new ProductDto(pno, sno, uno, pprice, pstock, pstatus);
+                ProductDto record = new ProductDto(pno, sname, sspec, smaker, sunit, pprice, pstock, false);
                 list.add(record);
             }
             // 5. 실행 후 반환
@@ -86,26 +83,28 @@ public class ProductDao {
         }
     }
 
-    // 3. 전체 제품 조회 (매개변수 : uno)
-    public ArrayList<ProductDto> productPrint(int num) {
+    // 3. 전체 제품 조회 (매개변수 : int uno)
+    public ArrayList<ProductDto> productPrint(int uno) {
         try {
             // 1. 제품 조회 sql문
             String sql = "select * from product where uno = ?";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. sql문에 필요한 데이터 삽입
-            ps.setInt(1, num);
+            ps.setInt(1, uno);
             // 4. sql문 실행
             ResultSet rs = ps.executeQuery();
             // 5. 레코드를 하나씩 객체로 만들어 list에 삽입
             while (rs.next()) {
                 int pno = rs.getInt("pno");
-                int sno = rs.getInt("sno");
-                int uno = rs.getInt("uno");
+                String sname = rs.getString("sname");
+                String sspec = rs.getString("sspec");
+                String smaker = rs.getString("smaker");
+                String sunit = rs.getString("sunit");
                 int pprice = rs.getInt("pprice");
                 int pstock = rs.getInt("pstock");
                 boolean pstatus = rs.getBoolean("pstatus");
-                ProductDto record = new ProductDto(pno, sno, uno, pprice, pstock, pstatus);
+                ProductDto record = new ProductDto(pno, sname, sspec, smaker, sunit, pprice, pstock, pstatus);
                 list.add(record);
             }
             // 6. 실행 후 반환
@@ -114,6 +113,8 @@ public class ProductDao {
             throw new RuntimeException();
         }
     }
+
+    public boolean productDelete() {
 
     // 4. 제품 수정
     public boolean productUpdate(ProductDto dto) {
@@ -156,21 +157,29 @@ public class ProductDao {
     }
 
     // 6. 장바구니 등록
-    public boolean cartAdd(int pno, int pstock) {
+    public boolean cartAdd(int num, int stock) {
         try {
             // 1. 제품 조회 sql문
-            String sql = "select * from product where pno = ?";
+            String sql = "select * from product join sample on product.sno = sample.sno where pno = ?";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. sql문에 필요한 데이터 삽입
-            ps.setInt(1, pno);
+            ps.setInt(1, num);
             // 4. sql문 실행
             ResultSet rs = ps.executeQuery();
             // 5. 찾은 레코드를 cart에 삽입
             rs.next();
-            int number = rs.getInt("pno");
-            int stock = rs.getInt("pstock");
-
+            int pno = rs.getInt("pno");
+            String sname = rs.getString("sname");
+            String sspec = rs.getString("sspec");
+            String smaker = rs.getString("smaker");
+            String sunit = rs.getString("sunit");
+            int pprice = rs.getInt("pprice");
+            int pstock = rs.getInt("pstock");
+            // if (pstock < stock) return false; 재고보다 담으려는 물품이 많으면 담을 수 없어야 함 TODO
+            // else pstock = stock; 재고보다 담으려는 물품이 적으면 재고에서 담으려는 물품만큼을 빼고, pstock에 뺀 만큼의 물품을 담아야 함
+            ProductDto record = new ProductDto(pno, sname, sspec, smaker, sunit, pprice, pstock, false);
+            cart.add(record);
             // 5. 실행 후 반환
             return true; // 실행 완료 시 true 반환
         } catch (Exception e) {
@@ -181,12 +190,12 @@ public class ProductDao {
 
     // 7. 장바구니 조회
     public ArrayList<ProductDto> cartPrint() {
-
+        return cart;
     }
 
     // 8. 장바구니 삭제
     public boolean cartDelete() {
-
+        cart = new ArrayList<>();
+        return true;
     }
-
 }
