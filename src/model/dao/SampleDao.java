@@ -1,6 +1,4 @@
-package Model.dao;
-
-import View.NoteView;
+package model.dao;
 
 public class SampleDao {
     // (*)싱글톤

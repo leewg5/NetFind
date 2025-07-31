@@ -1,4 +1,4 @@
-package Model.dto;
+package model.dto;
 
 public class ProductDto {
     private int pno, sno, uno;

@@ -1,6 +1,6 @@
-package Model.dao;
+package model.dao;
 
-import Model.dto.NoteDto;
+import model.dto.NoteDto;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

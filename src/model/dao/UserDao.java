@@ -1,4 +1,4 @@
-package Model.dao;
+package model.dao;
 
 public class UserDao {
     // (*) 싱글톤

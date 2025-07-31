@@ -1,4 +1,4 @@
-package Model.dto;
+package model.dto;
 
 public class UserDto {
     // 1. 멤버변수
