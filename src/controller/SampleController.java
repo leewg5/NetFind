@@ -1,7 +1,5 @@
 package controller;
 
-import view.NoteView;
-
 public class SampleController {
     // (*)싱글톤
     private SampleController(){}
