@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import Model.dao.ProductDao;
 import Model.dto.ProductDto;
