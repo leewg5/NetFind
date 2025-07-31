@@ -1,6 +1,4 @@
-package Controller;
-
-import View.NoteView;
+package controller;
 
 public class SampleController {
     // (*)싱글톤
