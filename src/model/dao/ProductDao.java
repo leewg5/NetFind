@@ -159,7 +159,7 @@ public class ProductDao {
     public boolean cartAdd(int pno, int pstock) {
         try {
             // 1. 제품 조회 sql문
-            String sql = "select * from product where pno = ?";
+            String sql = "select * from product join sample on product.sno = sample.sno where pno = ?";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. sql문에 필요한 데이터 삽입
@@ -169,12 +169,13 @@ public class ProductDao {
             // 5. 찾은 레코드를 cart에 삽입
             rs.next();
             int no = rs.getInt("pno");
-            int sno = rs.getInt("sno");
-            int uno = rs.getInt("uno");
+            String name = rs.getString("sname");
+            String spec = rs.getString("sspec");
+            String maker = rs.getString("smaker");
+            String unit = rs.getString("sunit");
             int price = rs.getInt("pprice");
             int stock = rs.getInt("pstock");
-            boolean status = rs.getBoolean("pstatus");
-            ProductDto record = new ProductDto(no, sno, uno, price, stock, status);
+            ProductDto record = new ProductDto(no, name, spec, maker, unit, price, stock);
             cart.add(record);
             // 5. 실행 후 반환
             return true; // 실행 완료 시 true 반환
@@ -186,12 +187,12 @@ public class ProductDao {
 
     // 7. 장바구니 조회
     public ArrayList<ProductDto> cartPrint() {
-        return list;
+        return cart;
     }
 
     // 8. 장바구니 삭제
     public boolean cartDelete() {
-        list = new ArrayList<>();
+        cart = new ArrayList<>();
         return true;
     }
 }

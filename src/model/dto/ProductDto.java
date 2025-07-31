@@ -4,6 +4,7 @@ public class ProductDto {
     private int pno, sno, uno;
     private int pprice, pstock;
     private boolean pstatus;
+    private String sname, sspec, smaker, sunit;
 
     public ProductDto(int sno, int pprice, int pstock, boolean pstatus) {
         this.sno = sno;
@@ -26,6 +27,32 @@ public class ProductDto {
         this.pprice = pprice;
         this.pstock = pstock;
         this.pstatus = pstatus;
+    }
+
+    public ProductDto(int no, String name, String spec, String maker, String unit, int price, int stock) {
+        this.pno = no;
+        this.sname = name;
+        this.sspec = spec;
+        this.smaker = maker;
+        this.sunit = unit;
+        this.pprice = price;
+        this.pstock = stock;
+    }
+
+    public String getSname() {
+        return sname;
+    }
+
+    public String getSspec() {
+        return sspec;
+    }
+
+    public String getSmaker() {
+        return smaker;
+    }
+
+    public String getSunit() {
+        return sunit;
     }
 
     public int getPno() {
