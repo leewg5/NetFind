@@ -9,7 +9,11 @@ public class NoteDto {
     private String ncontext;
     private String ndate;
 
-    // *. 생성자, 메소드 : 자동완성
+    public NoteDto(int nreceive, String ncontext) {
+        this.nreceive = nreceive;
+        this.ncontext = ncontext;
+    }
+
     public NoteDto(int nno, int nsend, int nreceive, String ncontext, String ndate) {
         this.nno = nno;
         this.nsend = nsend;
