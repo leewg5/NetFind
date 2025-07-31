@@ -83,7 +83,7 @@ public class UserDao {
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. SQL 매개변수 대입, SQL 문법내 ? 개수만큼
             ps.setString(1, userDto.getUpwd());
-            ps.setString();
+            ps.setString(2, userDto.getUphone());
 
             // 4. SQL 실행
             // 5. SQL 결과 로직/리턴/확인
