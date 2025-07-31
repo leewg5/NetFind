@@ -1,6 +1,6 @@
-package Controller;
+package controller;
 
-import Model.Dao.NoteDao;
+import model.dao.NoteDao;
 
 public class NoteController {
 

@@ -1,4 +1,8 @@
-package Model.Dto;
+<<<<<<<< HEAD:src/Model/Dto/NoteDto.java
+package model.Dto;
+========
+package model.dto;
+>>>>>>>> 51ea63f3f5cc127eb817590324a25281ce506208:src/model/dto/NoteDto.java
 
 public class NoteDto {
 
