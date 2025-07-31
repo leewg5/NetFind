@@ -75,13 +75,22 @@ public class UserDao {
     // String uphone
     // String uname
     // 반환 불리언
-    public boolean userUpdate(){
-        // 1. SQL 작성
-        // 2. SQL 기재
-        // 3. SQL 매개변수 대입, SQL 문법내 ? 개수만큼
-        // 4. SQL 실행
-        // 5. SQL 결과 로직/리턴/확인
-        return false;
+    public boolean userUpdate(UserDto userDto){ // dto의 생성자로 만든 멤버변수를 매개변수로 넣기
+        try {
+            // 1. SQL 작성
+            String sql = "update user set upwd = ? , uphone = ? , uname = ?;";
+            // 2. SQL 기재
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // 3. SQL 매개변수 대입, SQL 문법내 ? 개수만큼
+            ps.setString(1, userDto.getUpwd());
+            ps.setString();
+
+            // 4. SQL 실행
+            // 5. SQL 결과 로직/리턴/확인
+        } catch (Exception e){
+            System.out.println(e);
+        } // catch end
+            return false;
     } // func end
 
     // (3) 사용자탈퇴

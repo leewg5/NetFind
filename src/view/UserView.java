@@ -38,10 +38,14 @@ public class UserView {
                     "║       ╚═╝  ╚═══╝ ╚══════╝    ╚═╝    ╚═╝      ╚═╝ ╚═╝  ╚═══╝ ╚═════╝          ║\n" +
                     "║                                                                              ║\n" +
                     "╚══════════════════════════════════════════════════════════════════════════════╝");
-            System.out.println("======== Net Find에 오신 것을 환영합니다 ========");
-            System.out.println("1. 로그인 | 2. 회원가입");
-            System.out.println("=============================================");
-            System.out.print("선택 > ");
+            System.out.println("====================== Net Find에 오신 것을 환영합니다 ======================");
+            System.out.println("┌───────────┐ ┌────────────┐");
+            System.out.println("│ 1. 로그인  │ │ 2. 회원가입 │");
+            System.out.println("└───────────┘ └────────────┘");
+            System.out.println("========================================================================");
+            System.out.println("┌────────────┐");
+            System.out.println("│  선택 >    │");
+            System.out.println("└────────────┘");
             int select = scan.nextInt();
             if (select == 1) {
                 // login();
@@ -60,7 +64,6 @@ public class UserView {
     // 아이디, 비밀번호, 연락처, 사용자명, 사업자명, 사업자번호, 사업장주소를 입력 받아 DB에 저장한다.
     public void userAdd(){
         // 1. 입력 받기
-        scan.nextLine(); // 버퍼 문제 해결
         System.out.println("=========== 회원 가입 페이지입니다 ============");
         System.out.print("아이디 : ");
         String uid = scan.next();
@@ -71,10 +74,12 @@ public class UserView {
         System.out.print("사용자명 : ");
         String uname = scan.next();
         System.out.print("사업자명 : ");
+        scan.nextLine(); // 버퍼 문제 해결 및 공백 방지
         String ubname = scan.nextLine();
         System.out.print("사업자번호 : ");
         String ubnumber = scan.next();
         System.out.print("사업장주소 : ");
+        scan.nextLine(); // 버퍼 문제 해결 및 공백 방지
         String ublocation = scan.nextLine();
         System.out.println("=============================================");
         // 2. 컨트롤러에 전달 후 리턴값 저장
