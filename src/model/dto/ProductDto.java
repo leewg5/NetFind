@@ -12,6 +12,13 @@ public class ProductDto {
         this.pstatus = pstatus;
     }
 
+    public ProductDto(int pprice, int pstock, boolean pstatus, int pno) {
+        this.pprice = pprice;
+        this.pstock = pstock;
+        this.pstatus = pstatus;
+        this.pno = pno;
+    }
+
     public ProductDto(int pno, int sno, int uno, int pprice, int pstock, boolean pstatus) {
         this.pno = pno;
         this.sno = sno;

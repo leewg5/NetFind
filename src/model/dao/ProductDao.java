@@ -70,13 +70,13 @@ public class ProductDao {
             ResultSet rs = ps.executeQuery();
             // 4. 레코드를 하나씩 객체로 만들어 list에 삽입
             while (rs.next()) {
-                int pno = rs.getInt("pno");
+                int no = rs.getInt("pno");
                 int sno = rs.getInt("sno");
                 int uno = rs.getInt("uno");
-                int pprice = rs.getInt("pprice");
-                int pstock = rs.getInt("pstock");
-                boolean pstatus = rs.getBoolean("pstatus");
-                ProductDto record = new ProductDto(pno, sno, uno, pprice, pstock, pstatus);
+                int price = rs.getInt("pprice");
+                int stock = rs.getInt("pstock");
+                boolean status = rs.getBoolean("pstatus");
+                ProductDto record = new ProductDto(no, sno, uno, price, stock, status);
                 list.add(record);
             }
             // 5. 실행 후 반환
@@ -99,13 +99,13 @@ public class ProductDao {
             ResultSet rs = ps.executeQuery();
             // 5. 레코드를 하나씩 객체로 만들어 list에 삽입
             while (rs.next()) {
-                int pno = rs.getInt("pno");
+                int no = rs.getInt("pno");
                 int sno = rs.getInt("sno");
                 int uno = rs.getInt("uno");
-                int pprice = rs.getInt("pprice");
-                int pstock = rs.getInt("pstock");
-                boolean pstatus = rs.getBoolean("pstatus");
-                ProductDto record = new ProductDto(pno, sno, uno, pprice, pstock, pstatus);
+                int price = rs.getInt("pprice");
+                int stock = rs.getInt("pstock");
+                boolean status = rs.getBoolean("pstatus");
+                ProductDto record = new ProductDto(no, sno, uno, price, stock, status);
                 list.add(record);
             }
             // 6. 실행 후 반환
@@ -168,9 +168,14 @@ public class ProductDao {
             ResultSet rs = ps.executeQuery();
             // 5. 찾은 레코드를 cart에 삽입
             rs.next();
-            int number = rs.getInt("pno");
+            int no = rs.getInt("pno");
+            int sno = rs.getInt("sno");
+            int uno = rs.getInt("uno");
+            int price = rs.getInt("pprice");
             int stock = rs.getInt("pstock");
-
+            boolean status = rs.getBoolean("pstatus");
+            ProductDto record = new ProductDto(no, sno, uno, price, stock, status);
+            cart.add(record);
             // 5. 실행 후 반환
             return true; // 실행 완료 시 true 반환
         } catch (Exception e) {
@@ -181,12 +186,12 @@ public class ProductDao {
 
     // 7. 장바구니 조회
     public ArrayList<ProductDto> cartPrint() {
-
+        return list;
     }
 
     // 8. 장바구니 삭제
     public boolean cartDelete() {
-
+        list = new ArrayList<>();
+        return true;
     }
-
 }
