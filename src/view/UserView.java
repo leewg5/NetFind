@@ -139,9 +139,9 @@ public class UserView {
             System.out.println("└────────────┘");
             int select = scan.nextInt();
 
-        }
+        }// for e
         
-    }
+    }// func e
 
     // 1-1 사용자등록(회원가입)
     // 아이디, 비밀번호, 연락처, 사용자명, 사업자명, 사업자번호, 사업장주소를 입력 받아 DB에 저장한다.

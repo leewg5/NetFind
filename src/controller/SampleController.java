@@ -1,7 +1,9 @@
 package controller;
 
+import model.dao.SampleDao;
 import model.dto.SampleDto;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class SampleController {
@@ -13,7 +15,7 @@ public class SampleController {
     }
 
     // (*) Controller는 Dao만 호출 할 수있다. dao 싱글톤 호출
-
+    private SampleDao sampleDao = SampleDao.getInstance();
     // (1) 샘플 등록기능구현
     public boolean sampleAdd(String sname , String sspec , String smaker , String sunit ){
         // 1. 유효성 검사( 패스 )
@@ -39,21 +41,16 @@ public class SampleController {
     public ArrayList<SampleDto> samplePrint(){
         // - 유효성검사 ~ // - 매개변수~
         // 3. dao에게 요청후 결과받기
-        ArrayList<SampleDto> result = sampleDao.waitingPrint();
+        ArrayList<SampleDto> result = sampleDao.samplePrint();
         // 4. 결과를 view에게 리턴한다.
         return result;
     }
 
-    // (4) 샘플번호와 제품번호 비교
-    /*
-    public boolean sampleProductPrint( int sno ){
-        if( int i = 1 ; i < sno.length ; i++ ){
-            sno == pno ,
-        }else{}
-        return ;
-    }
 
-     */
+
+
+
+
 
 
 
