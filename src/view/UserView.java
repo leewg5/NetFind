@@ -2,7 +2,7 @@ package view;
 
 import controller.NoteController;
 import controller.ProductController;
-// import controller.SampleController;
+import controller.SampleController;
 import controller.UserController;
 import model.dto.ProductDto;
 import model.dto.UserDto;
@@ -23,7 +23,7 @@ public class UserView {
 
     // (*) 컨트롤러 싱글톤 호출(
     private UserController userController = UserController.getInstance();
-//    private SampleController sampleController = SampleController.getInstance();
+    private SampleController sampleController = SampleController.getInstance();
     private ProductController productController = ProductController.getInstance();
     private NoteController noteController = NoteController.getInstance();
 
@@ -415,7 +415,7 @@ public class UserView {
             System.out.println("[경고] 제품 등록 실패");
         }
     }
-    
+
     // 3-2) 전체 제품 조회
     public void productPrint(){
         // 1. 입력받기 (없음)
