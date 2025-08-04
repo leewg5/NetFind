@@ -414,7 +414,7 @@ public class UserView {
         } else {
             System.out.println("[경고] 제품 등록 실패");
         }
-    }
+    } // func end
     
     // 3-2) 전체 제품 조회
     public void productPrint(){
