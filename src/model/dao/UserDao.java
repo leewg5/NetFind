@@ -1,5 +1,6 @@
 package model.dao;
 
+import controller.UserController;
 import model.dto.ProductDto;
 import model.dto.UserDto;
 
@@ -81,14 +82,15 @@ public class UserDao {
     // 반환 불리언
     public boolean userUpdate(UserDto userDto){ // dto의 생성자로 만든 멤버변수를 매개변수로 넣기
         try {
-            // 1. SQL 작성
-            String sql = "update user set upwd = ? , uphone = ? , uname = ?;";
+            // 1. SQL 작성 => 이렇게 코드 쓰면 모든 레코드가 변환됨. 조건절로 현재 uno를 추가하기
+            String sql = "update user set upwd = ? , uphone = ? , uname = ? where uno = ?";
             // 2. SQL 기재
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. SQL 매개변수 대입, SQL 문법내 ? 개수만큼
             ps.setString(1, userDto.getUpwd());
             ps.setString(2, userDto.getUphone());
             ps.setString(3, userDto.getUname());
+            ps.setInt(4 , UserController.loginUno); // 현재 사용자 uno
             // 4. SQL 실행
             int count = ps.executeUpdate();
             // 5. SQL 결과 로직/리턴/확인
@@ -198,12 +200,13 @@ public class UserDao {
     // 반환 불리언
     public boolean checkPwd(String upwd){
         try {
-            // 1. SQL 작성
-            String sql = "select * from user where upwd = ?";
+            // 1. SQL 작성. 현재 로그인한 사용자의 비밀번호를 확인해야함. where uno 작성
+            String sql = "select * from user where uno = ? and upwd = ?";
             // 2. SQL 기재
             PreparedStatement ps = conn.prepareStatement(sql);
-            // 3. SQL 매개변수 대입
-            ps.setString(1 , upwd);
+            // 3. SQL 매개변수 대입 , 현재 로그인 사용자의 uno를 대입한다.
+            ps.setInt(1, UserController.loginUno);
+            ps.setString(2 , upwd);
             // 4. SQL 실행 select라서 executeQuery()
             ResultSet rs = ps.executeQuery();
             // 5. SQL 결과에 따른 로직/리턴/확인

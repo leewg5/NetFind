@@ -65,14 +65,14 @@ public class UserController {
     //    String uphone
     //    String uname
     //    반환 불리언
-    public boolean userUpdate(String upwd , String uphone, String uname){
+    public boolean userUpdate(String upwd, String upwdNew, String uphone, String uname){
         // 1. 유효성 검사
         boolean isValid = userDao.checkPwd(upwd);
         if (!isValid){
             return false;
         }
         // 2. 객체화
-        UserDto userDto = new UserDto(0, "" , upwd , uphone , uname , "" , "" , "");
+        UserDto userDto = new UserDto(upwdNew , uphone , uname);
         // 3. 객체화된 dao에게 수정된 항목 전달 후 result
         boolean result = userDao.userUpdate(userDto);
         // 4. view에게 리턴
