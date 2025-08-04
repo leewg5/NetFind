@@ -3,6 +3,8 @@ package controller;
 import model.dao.UserDao;
 import model.dto.UserDto;
 
+import java.util.ArrayList;
+
 public class UserController {
     // (*) 싱글톤
     private UserController() {
@@ -63,17 +65,66 @@ public class UserController {
     //    String uphone
     //    String uname
     //    반환 불리언
-    public boolean userUpdate( ){
+    public boolean userUpdate(String upwd, String upwdNew, String uphone, String uname){
+        // 1. 유효성 검사
+        boolean isValid = userDao.checkPwd(upwd);
+        if (!isValid){
+            return false;
+        }
+        // 2. 객체화
+        UserDto userDto = new UserDto(upwdNew , uphone , uname);
+        // 3. 객체화된 dao에게 수정된 항목 전달 후 result
+        boolean result = userDao.userUpdate(userDto);
+        // 4. view에게 리턴
+        return result;
+    } // func end
 
-
+    // (3) 사용자 정보 삭제
+    public boolean userDelete(){
+        // 1. 유효성 검사
+        
+        // 2. 객체화
+        
+        // 3. 객체화된 dao에게 수정된 항목 전달 후 result
+        
+        // 4. view에게 리턴
         return false;
     }
 
+    // (4) 사용자 정보 조회
+    public ArrayList<UserDto> userPrint(int pno){
+        // 1. 유효성검사
+        // 2. 객체화
+        // 3. 객체화된 dto dao에게 전달 후 result
+        ArrayList<UserDto> result = userDao.userPrint(pno);
+        // 4. view에게 리턴
+        return result;
+    }
+
+
     // (5) 로그인 컨트롤
-    public int login(String uid, String upwd) {
+    public boolean login(String uid, String upwd) {
         // 1. 유효성 검사 (공란체크, uid가 admin일 때)
-        return 0;
+        if(uid == null || uid.trim().isEmpty()){
+            return false;
+        } else if (upwd == null || uid.trim().isEmpty()) {
+            return false;
+        }
+        // 2. 객체화
+        // 3. 객체화된 dto dao에게 전달 후 result
+        int result = userDao.login(uid, upwd);
+        if(result > 0){
+            loginUno = result;  // static 변수 loginUno에 로그인 성공한 uno를 저장
+            return true;
+        }
+        // 4. view에게 리턴
+        return false;
     } // func end
+
+    // (6) 로그아웃 컨트롤
+    public void logout(){
+        loginUno = 0;   // 로그아웃 시 static 변수 0으로 초기화
+    }
 
 
     // (*) 비밀번호 체크 메소드 활용 시
