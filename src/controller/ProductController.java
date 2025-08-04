@@ -42,7 +42,7 @@ public class ProductController {
     }
 
     // 6. 장바구니 등록
-    public boolean cartAdd(int num, int stock) {
+    public int cartAdd(int num, int stock) {
         return dao.cartAdd(num, stock);
     }
 

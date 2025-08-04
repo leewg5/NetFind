@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import static controller.UserController.loginUno;
+
 public class ProductDao {
     // (*) 싱글톤
     private ProductDao() { connect(); }
@@ -39,9 +41,9 @@ public class ProductDao {
             String sql = "insert into product(sno, uno, pprice, pstock, pstatus) values (?, ?, ?, ?, ?)";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
-            // 3. sql문에 필요한 데이터 삽입
+            // 3. sql 문에 필요한 데이터 삽입
             ps.setInt(1, dto.getSno());
-            ps.setInt(2, 2); // 로그인한 사용자의 static uno 삽입 (TODO)
+            ps.setInt(2, loginUno); // 로그인한 사용자의 static uno 삽입
             ps.setInt(3, dto.getPprice());
             ps.setInt(4, dto.getPstock());
             ps.setBoolean(5, dto.isPstatus());
@@ -87,10 +89,10 @@ public class ProductDao {
     public ArrayList<ProductDto> productPrint(int uno) {
         try {
             // 1. 제품 조회 sql문
-            String sql = "select * from product where uno = ?";
+            String sql = "select * from product join sample on product.sno = sample.sno where uno = ?";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
-            // 3. sql문에 필요한 데이터 삽입
+            // 3. sql 문에 필요한 데이터 삽입
             ps.setInt(1, uno);
             // 4. sql문 실행
             ResultSet rs = ps.executeQuery();
@@ -121,7 +123,7 @@ public class ProductDao {
             String sql = "update product set pprice = ?, pstock = ?, pstatus = ? where pno = ?";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
-            // 3. sql문에 필요한 데이터 삽입
+            // 3. sql 문에 필요한 데이터 삽입
             ps.setInt(1, dto.getPprice());
             ps.setInt(2, dto.getPstock());
             ps.setBoolean(3, dto.isPstatus());
@@ -143,7 +145,7 @@ public class ProductDao {
             String sql = "delete from product where pno = ?";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
-            // 3. sql문에 필요한 데이터 삽입
+            // 3. sql 문에 필요한 데이터 삽입
             ps.setInt(1, pno);
             // 4. sql문 실행
             ps.executeUpdate();
@@ -156,13 +158,13 @@ public class ProductDao {
     }
 
     // 6. 장바구니 등록
-    public boolean cartAdd(int num, int stock) {
+    public int cartAdd(int num, int stock) {
         try {
             // 1. 제품 조회 sql문
             String sql = "select * from product join sample on product.sno = sample.sno where pno = ?";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
-            // 3. sql문에 필요한 데이터 삽입
+            // 3. sql 문에 필요한 데이터 삽입
             ps.setInt(1, num);
             // 4. sql문 실행
             ResultSet rs = ps.executeQuery();
@@ -175,15 +177,16 @@ public class ProductDao {
             String sunit = rs.getString("sunit");
             int pprice = rs.getInt("pprice");
             int pstock = rs.getInt("pstock");
-            // if (pstock < stock) return false; 재고보다 담으려는 물품이 많으면 담을 수 없어야 함 TODO
-            // else pstock = stock; 재고보다 담으려는 물품이 적으면 재고에서 담으려는 물품만큼을 빼고, pstock에 뺀 만큼의 물품을 담아야 함
+            // 6. 재고 파악 (입력받은 값이 재고보다 많을 시 재고 부족으로 return)
+            if (pstock < stock) return 1; // 재고보다 담으려는 물품이 많으면 담을 수 없어야 함 (재고 부족으로 1 반환)
+            else pstock = stock; // 재고보다 담으려는 물품이 적으면 입력받은 값을 담음
             ProductDto record = new ProductDto(pno, sname, sspec, smaker, sunit, pprice, pstock, false);
             cart.add(record);
-            // 5. 실행 후 반환
-            return true; // 실행 완료 시 true 반환
+            // 7. 실행 후 반환
+            return 0; // 실행 완료 시 0 반환
         } catch (Exception e) {
             System.out.println(e);
-            return false; // 오류 발생 시 false 반환
+            return 2; // 오류 발생 시 2 반환
         }
     }
 
@@ -194,7 +197,7 @@ public class ProductDao {
 
     // 8. 장바구니 삭제
     public boolean cartDelete() {
-        cart = new ArrayList<>();
+        cart = new ArrayList<>(); // cart ArrayList를 초기화함
         return true;
     }
 }
