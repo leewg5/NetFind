@@ -1,11 +1,14 @@
 package model.dao;
 
+import model.dto.ProductDto;
 import model.dto.UserDto;
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class UserDao {
     // (*) 싱글톤
@@ -121,15 +124,32 @@ public class UserDao {
     // 4.  사용자DB(판매자)의 uno를 받는 사람(nsend)의 FK로 받아, 쪽지 기능을 실행한다.
     // int pno
     // 반환 UserDto
-    public UserDto userPrint(){
-        UserDto dto = new UserDto();
-        // 1. SQL 작성
-        // 2. SQL 기재
-        // 3. SQL 매개변수 대입
-        // 4. SQL 실행 select라서 executeQuery()
-        // 5. SQL 결과에 따른 로직/리턴/확인
-        
-        return dto;
+    public ArrayList<UserDto> userPrint(int pno){
+        ArrayList<UserDto> list = new ArrayList<>();
+        try {
+            // 1. SQL 작성
+            String sql = "select p.* , u.* from product p join user u on p.uno = u.uno where p.pno =?";
+            // 2. SQL 기재
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // 3. SQL 매개변수 대입
+            ps.setInt(1, pno);
+            // 4. SQL 실행 select라서 executeQuery()
+            ResultSet rs = ps.executeQuery();
+            // 5. SQL 결과에 따른 로직/리턴/확인 (어떤 내용을 호출/출력할 것인가)
+            while (rs.next()) {
+                String ubname = rs.getString("ubname");
+                String ubnumber = rs.getString("ubnumber");
+                String ublocation = rs.getString("ublocation");
+                String uphone = rs.getString("uphone");
+                // 레코드 1개를 dto 타입으로 객체 저장
+                UserDto userDto = new UserDto(0 , "", "" , uphone , "" , ubname , ubnumber , ublocation);
+                // 배열리스트 타입 리스트 변수에 담기
+                list.add(userDto);
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return list;
     }
 
     // (5) 로그인
@@ -139,20 +159,32 @@ public class UserDao {
     // String uid
     // String upwd
     // 반환 int(uno와 일치하는 int)
-    public int login(){
-        // 1. SQL 작성
-        // 2. SQL 기재
-        // 3. SQL 매개변수 대입
-        // 4. SQL 실행 select라서 executeQuery()
-        // 5. SQL 결과에 따른 로직/리턴/확인
-        return 0;
+    public int login(String uid, String upwd){
+        try {
+            // 1. SQL 작성
+            String sql = "select uno from user where uid = ? and upwd =?";
+            // 2. SQL 기재
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // 3. SQL 매개변수 대입
+            ps.setString(1, uid);
+            ps.setString(2, upwd);
+            // 4. SQL 실행 select라서 executeQuery()
+            ResultSet rs = ps.executeQuery();
+            // 5. SQL 결과에 따른 로직/리턴/확인
+            if(rs.next()){
+                return rs.getInt("uno"); // 로그인 성공하면 uno값을 반환한다.
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return 0; // 로그인 실패하면 0을 반환한다.
     }
 
     // (6) 로그아웃
     // 로그인 세션 만료 처리하고 콘솔 종료한다.
     // (static 변수 활용)
     // 반환 X
-    public void logout(){
+    public void logout(){ // 이건 할 필요없음
         // 1. SQL 작성
         // 2. SQL 기재
         // 3. SQL 매개변수 대입
