@@ -34,15 +34,6 @@ public class ProductDto {
         this.pno = pno;
     }
 
-    public ProductDto(int pno, int sno, int uno, int pprice, int pstock, boolean pstatus) {
-        this.pno = pno;
-        this.sno = sno;
-        this.uno = uno;
-        this.pprice = pprice;
-        this.pstock = pstock;
-        this.pstatus = pstatus;
-    }
-
     public int getPno() {
         return pno;
     }
