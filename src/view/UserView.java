@@ -50,9 +50,7 @@ public class UserView {
                 System.out.println("  1. 로그인      2. 회원가입  ");
                 System.out.println("└───────────┘ └────────────┘");
                 System.out.println("========================================================================");
-                System.out.println("┌────────────┐");
-                System.out.println("│  선택 >    ");
-                System.out.println("└────────────┘");
+                System.out.println("  선택 >    ");
                 int select = scan.nextInt();
                 if (select == 1) {
                     login();
@@ -77,9 +75,7 @@ public class UserView {
                 System.out.println("  0. 샘플관리      1. 판매등록      2. 조회구매      3. 마이페이지   4. 로그아웃 ");
                 System.out.println("└─────────────┘ └─────────────┘ └────────────┘ └────────────┘ └───────────┘");
                 System.out.println("===========================================================================");
-                System.out.println("┌────────────┐");
-                System.out.println("│  선택 >     ");
-                System.out.println("└────────────┘");
+                System.out.println("  선택 >     ");
                 int select = scan.nextInt();
                 if (select == 0) {
                     sampleIndex();
@@ -113,9 +109,7 @@ public class UserView {
                 System.out.println("  1. 판매등록      2. 조회구매      3. 마이페이지    4. 로그아웃 ");
                 System.out.println("└─────────────┘ └────────────┘ └─────────────┘ └────────────┘");
                 System.out.println("========================================================================");
-                System.out.println("┌────────────┐");
-                System.out.println("│  선택 >    ");
-                System.out.println("└────────────┘");
+                System.out.println("  선택 >    ");
                 int select = scan.nextInt();
                 if (select == 1) {
                     productIndex();
@@ -336,9 +330,7 @@ public class UserView {
     public void userPrint(){
         // 1. 입력받기
         System.out.println("============= 판매자 상세 페이지 =============");
-        System.out.println("┌──────────────────────┐");
-        System.out.println("│ 상세조회할 판매자 번호 > ");
-        System.out.println("└──────────────────────┘");
+        System.out.println(" 상세조회할 판매자 번호 > ");
         int pno = scan.nextInt();
         // 2. 컨트롤러에 전달 후 리턴값 저장
         ArrayList<UserDto> result = userController.userPrint(pno);
