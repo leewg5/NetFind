@@ -306,7 +306,7 @@ public class UserView {
         String upwd = scan.next();  // 기존 비밀번호
         // * 유효성 검사
         boolean check = userController.checkPwd(upwd);
-        if (upwd.equals(check)){
+        if (!upwd.equals(check)){
             System.out.println("[경고] 비밀번호를 확인해주세요.");
             return;
         }
@@ -341,7 +341,7 @@ public class UserView {
         System.out.println("정말 삭제하시겠습니까? [Y/N]");
         String deleteCheck = scan.next();
         // * 유효성 검사
-        if (deleteCheck != "Y"){
+        if (!deleteCheck.equals("Y")){
             System.out.println("[안내] 돌아와주셔서 감사합니다.");
             mypageIndex();
             return;
