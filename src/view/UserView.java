@@ -308,7 +308,7 @@ public class UserView {
         System.out.print("사용자명 : ");
         String uname = scan.next();
         // 2. 컨트롤러에 전달 후 리턴값 저장
-        boolean result = userController.userUpdate(upwd, upwdNew , uphone , uname);
+        boolean result = userController.userUpdate(upwdNew , uphone , uname);
         // 3. 리턴값 출력
         if (result){
             System.out.println("[안내] 정보 수정 완료");
@@ -319,7 +319,8 @@ public class UserView {
 
     // 1-3) 사용자탈퇴
     public void userDelete(){
-
+        // 비밀 번호 입력받기
+        //
     }
 
     // 1-4) 상세사용자조회
@@ -354,10 +355,11 @@ public class UserView {
         if (result){
             if (uid.equals("admin")){
                 System.out.println("[안내] 관리자 로그인 성공");
-                loginUno = 1;
+                System.out.println(loginUno);
                 adminMain();
             } else {
                 System.out.println("[안내] 로그인 성공");
+                System.out.println(loginUno);
                 main();
             }
         } else {
@@ -415,7 +417,7 @@ public class UserView {
             System.out.println("[경고] 제품 등록 실패");
         }
     } // func end
-    
+
     // 3-2) 전체 제품 조회
     public void productPrint(){
         // 1. 입력받기 (없음)

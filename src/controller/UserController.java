@@ -65,12 +65,12 @@ public class UserController {
     //    String uphone
     //    String uname
     //    반환 불리언
-    public boolean userUpdate(String upwd, String upwdNew, String uphone, String uname){
+    public boolean userUpdate(String upwdNew, String uphone, String uname){
         // 1. 유효성 검사
-        boolean isValid = userDao.checkPwd(upwd);
-        if (!isValid){
-            return false;
-        }
+//        boolean isValid = userDao.checkPwd(upwd);
+//        if (!isValid){
+//            return false;
+//        }
         // 2. 객체화
         UserDto userDto = new UserDto(upwdNew , uphone , uname);
         // 3. 객체화된 dao에게 수정된 항목 전달 후 result
@@ -80,15 +80,18 @@ public class UserController {
     } // func end
 
     // (3) 사용자 정보 삭제
-    public boolean userDelete(){
+    public void userDelete(){
         // 1. 유효성 검사
-        
+//        boolean isValid = userDao.checkPwd(upwd);
+//        if(!isValid){
+//            return false;
+//        }
         // 2. 객체화
-        
+        UserDto userDto = new UserDto();
         // 3. 객체화된 dao에게 수정된 항목 전달 후 result
-        
+
         // 4. view에게 리턴
-        return false;
+
     }
 
     // (4) 사용자 정보 조회
@@ -125,7 +128,6 @@ public class UserController {
     public void logout(){
         loginUno = 0;   // 로그아웃 시 static 변수 0으로 초기화
     }
-
 
     // (*) 비밀번호 체크 메소드 활용 시
     // uno와 loginUno가 일치하는지 확인
