@@ -16,6 +16,7 @@ public class SampleController {
 
     // (*) Controller는 Dao만 호출 할 수있다. dao 싱글톤 호출
     private SampleDao sampleDao = SampleDao.getInstance();
+
     // (1) 샘플 등록기능구현
     public boolean sampleAdd(String sname , String sspec , String smaker , String sunit ){
         // 1. 유효성 검사( 패스 )

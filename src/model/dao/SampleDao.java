@@ -34,15 +34,10 @@ public class SampleDao {
 
 
     // (1) 샘플 등록기능구현
-    public boolean sampleAdd( String sname , String sspec , String smaker ,String sunit ){
-        // 1. 유효성 검사( 패스 )
-        // 2. 데이터문제 없으면 묶음(객체) 하나로 만들기
-        // --> 주의할점 매개변수와 동일한 생성자가 존재하지 않으면 오류 발생한다.
-        SampleDto sampleDto = new SampleDto( 0 , sname , sspec , smaker , sunit );
-        // 3. 객체화된 dto를 dao에게 전달후 결과를 받는다.
-        boolean result = sampleDao.sampleAdd( sampleDto );
-        // 4. 결과를 view에게 리턴한다.
-        return result;
+    public boolean sampleAdd( SampleDto sampleDto ){
+        // boolean  : 해당 메소드 실행 결과를 true(저장성공) false(저장실패) 반환하기 위한 타입
+        // SampleDto sampleDto    : controller로부터 저장할 값들을 dto로 구성해서 받는 매개변수
+
     }
 
     // (2) 샘플 삭제기능 구현
