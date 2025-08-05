@@ -43,7 +43,6 @@ public class NoteDao {
         try {
             String sql = "INSERT INTO note (nsend, nreceive, ncontext) VALUES (?, ?, ?);"; // 1. SQL 작성한다.
             PreparedStatement ps = conn.prepareStatement(sql);  // 2. SQL 기재한다..
-            loginUno = 2;
             // 3. SQL 매개변수 대입 , 현재 ? 2개
             ps.setInt(1, loginUno); // nsend값
             ps.setInt(2, noteDto.getNreceive());
