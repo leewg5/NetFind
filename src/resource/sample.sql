@@ -27,9 +27,9 @@ create table product(
 	pno int auto_increment,
 	constraint primary key (pno) ,
 	sno int ,
-    constraint foreign key (sno) references sample (sno),
+    constraint foreign key (sno) references sample (sno) on delete cascade,
     uno int ,
-    constraint foreign key (uno) references user (uno),
+    constraint foreign key (uno) references user (uno) on delete cascade,
     pprice int not null , 
     pstock int not null ,
 	pstatus boolean default false
@@ -39,9 +39,9 @@ create table note(
 	nno int auto_increment,
 	constraint primary key (nno),
     nsend int,
-    constraint foreign key (nsend) references user (uno),
+    constraint foreign key (nsend) references user (uno) on delete cascade, 
     nreceive int,
-	constraint foreign key (nreceive) references user (uno),
+	constraint foreign key (nreceive) references user (uno) on delete cascade,
     ncontext longtext not null,
 	ndate datetime default now()
 );
@@ -164,3 +164,15 @@ select * from user;
 select * from sample;
 select * from product;
 select * from note;
+
+SELECT 
+    p.*,       -- product 테이블의 모든 컬럼
+    u.*        -- user 테이블의 모든 컬럼
+FROM 
+    product p
+JOIN 
+    user u ON p.uno = u.uno
+WHERE 
+    p.pno = ?;
+    
+    select p.* , u.* from product p join user u on p.uno = u.uno where p.pno = 1;

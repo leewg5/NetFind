@@ -306,7 +306,7 @@ public class UserView {
         String upwd = scan.next();  // 기존 비밀번호
         // * 유효성 검사
         boolean check = userController.checkPwd(upwd);
-        if (!upwd.equals(check)){
+        if (!check){
             System.out.println("[경고] 비밀번호를 확인해주세요.");
             return;
         }
@@ -323,7 +323,7 @@ public class UserView {
         if (result){
             System.out.println("[안내] 정보 수정 완료");
         } else {
-            System.out.println("[경고] 비밀번호를 확인해주세요.");
+            System.out.println("[경고] 정보 수정 실패 (DB 오류)");
         }
     } // func end
 
@@ -334,25 +334,25 @@ public class UserView {
         String upwd = scan.next();  // 기존 비밀번호
         // * 유효성 검사
         boolean check = userController.checkPwd(upwd);
-        if (!upwd.equals(check)){
+        if (!check){
             System.out.println("[경고] 비밀번호를 확인해주세요.");
             return;
         }
         System.out.println("정말 삭제하시겠습니까? [Y/N]");
         String deleteCheck = scan.next();
         // * 유효성 검사
-        if (!deleteCheck.equals("Y")){
-            System.out.println("[안내] 돌아와주셔서 감사합니다.");
-            mypageIndex();
+        if (!deleteCheck.equalsIgnoreCase("Y")){ // 대소문자 구분 없이 Y 아니면
+            System.out.println("[안내] 탈퇴가 취소되었습니다.");
             return;
         }
         // 2. 컨트롤러에 전달 후 리턴값 저장
         boolean result = userController.userDelete(loginUno);
         // 3. 리턴값 출력
         if (result){
-            System.out.println("[안내] 삭제 완료 되었습니다. 안녕히 가십시오.");
+            System.out.println("[안내] 회원 탈퇴 완료 되었습니다. 안녕히 가십시오.");
+            logout();
         } else {
-            System.out.println("[경고] ");
+            System.out.println("[경고] 회원 탈퇴 실패 (DB 오류)");
         }
     }
 
