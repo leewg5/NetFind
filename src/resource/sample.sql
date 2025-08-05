@@ -27,9 +27,9 @@ create table product(
 	pno int auto_increment,
 	constraint primary key (pno) ,
 	sno int ,
-    constraint foreign key (sno) references sample (sno) on delete cascade,
+    constraint foreign key (sno) references sample (sno) ON DELETE cascade,
     uno int ,
-    constraint foreign key (uno) references user (uno) on delete cascade,
+    constraint foreign key (uno) references user (uno) ON DELETE cascade,
     pprice int not null , 
     pstock int not null ,
 	pstatus boolean default false
@@ -39,9 +39,9 @@ create table note(
 	nno int auto_increment,
 	constraint primary key (nno),
     nsend int,
-    constraint foreign key (nsend) references user (uno) on delete cascade, 
+    constraint foreign key (nsend) references user (uno) ON DELETE cascade, 
     nreceive int,
-	constraint foreign key (nreceive) references user (uno) on delete cascade,
+	constraint foreign key (nreceive) references user (uno) ON DELETE cascade,
     ncontext longtext not null,
 	ndate datetime default now()
 );
