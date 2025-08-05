@@ -306,7 +306,7 @@ public class UserView {
         String upwd = scan.next();  // 기존 비밀번호
         // * 유효성 검사
         boolean check = userController.checkPwd(upwd);
-        if (!upwd.equals(check)){
+        if (upwd.equals(check)){
             System.out.println("[경고] 비밀번호를 확인해주세요.");
             return;
         }
