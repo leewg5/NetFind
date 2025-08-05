@@ -36,10 +36,10 @@ public class UserDto {
     }
 
     // 2-3) 사용자정보수정 생성자
-    public UserDto(String upwd, String uphone, String ubname) {
+    public UserDto(String upwd, String uphone, String uname) {
         this.upwd = upwd;
         this.uphone = uphone;
-        this.ubname = ubname;
+        this.uname = uname;
     }
 
     // 2-4) 비밀번호체크 생성자

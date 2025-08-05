@@ -30,7 +30,7 @@ public class ProductDao {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(db_url, db_user, db_password);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println("[경고] 데이터베이스 연결에 실패했습니다: " + e.getMessage());
         }
     }
 

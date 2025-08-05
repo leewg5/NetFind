@@ -1,11 +1,15 @@
 package model.dao;
 
+import controller.UserController;
+import model.dto.ProductDto;
 import model.dto.UserDto;
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class UserDao {
     // (*) 싱글톤
@@ -78,14 +82,15 @@ public class UserDao {
     // 반환 불리언
     public boolean userUpdate(UserDto userDto){ // dto의 생성자로 만든 멤버변수를 매개변수로 넣기
         try {
-            // 1. SQL 작성
-            String sql = "update user set upwd = ? , uphone = ? , uname = ?;";
+            // 1. SQL 작성 => 이렇게 코드 쓰면 모든 레코드가 변환됨. 조건절로 현재 uno를 추가하기
+            String sql = "update user set upwd = ? , uphone = ? , uname = ? where uno = ?";
             // 2. SQL 기재
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. SQL 매개변수 대입, SQL 문법내 ? 개수만큼
             ps.setString(1, userDto.getUpwd());
             ps.setString(2, userDto.getUphone());
             ps.setString(3, userDto.getUname());
+            ps.setInt(4 , UserController.loginUno); // 현재 사용자 uno
             // 4. SQL 실행
             int count = ps.executeUpdate();
             // 5. SQL 결과 로직/리턴/확인
@@ -105,12 +110,19 @@ public class UserDao {
     // 2. 삭제 여부를 확인 후, 동의 시 DB의 해당 레코드를 영구 삭제한다.
     // 반환 없음
     public void userDelete(){
-        // 1. SQL 작성
-        // 2. SQL 기재
-        // 3. SQL 매개변수 대입
-        // 4. SQL 실행
-        // 5. SQL 결과 확인(반환 없음)
-
+        try {
+            // 1. SQL 작성
+            String sql = "delete from user where uno = ?";
+            // 2. SQL 기재
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // 3. SQL 매개변수 대입
+            ps.setInt(1 , UserController.loginUno);
+            // 4. SQL 실행
+            ps.executeUpdate();
+            // 5. SQL 결과 확인(반환 없음)
+        }catch (Exception e){
+            System.out.println(e);
+        } // catch end
     } // func end
 
     // (4) 상세사용자조회
@@ -121,15 +133,34 @@ public class UserDao {
     // 4.  사용자DB(판매자)의 uno를 받는 사람(nsend)의 FK로 받아, 쪽지 기능을 실행한다.
     // int pno
     // 반환 UserDto
-    public UserDto userPrint(){
-        UserDto dto = new UserDto();
-        // 1. SQL 작성
-        // 2. SQL 기재
-        // 3. SQL 매개변수 대입
-        // 4. SQL 실행 select라서 executeQuery()
-        // 5. SQL 결과에 따른 로직/리턴/확인
-        
-        return dto;
+    public ArrayList<UserDto> userPrint(int pno){
+        ArrayList<UserDto> list = new ArrayList<>();
+        try {
+            // 1. SQL 작성
+            String sql = "select p.* , u.* from product p join user u on p.uno = u.uno where p.pno =?";
+            // 2. SQL 기재
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // 3. SQL 매개변수 대입
+            ps.setInt(1, pno);
+            // 4. SQL 실행 select라서 executeQuery()
+            ResultSet rs = ps.executeQuery();
+            // 5. SQL 결과에 따른 로직/리턴/확인 (어떤 내용을 호출/출력할 것인가)
+            // 하나 찾는 거니까, while문 쓰지 말기.
+            rs.next();
+                int uno = rs.getInt("uno");
+                String ubname = rs.getString("ubname");
+                String ubnumber = rs.getString("ubnumber");
+                String ublocation = rs.getString("ublocation");
+                String uphone = rs.getString("uphone");
+                // 레코드 1개를 dto 타입으로 객체 저장
+                UserDto userDto = new UserDto(uno , "", "" , uphone , "" , ubname , ubnumber , ublocation);
+                // 배열리스트 타입 리스트 변수에 담기
+                list.add(userDto);
+
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return list;
     }
 
     // (5) 로그인
@@ -139,20 +170,32 @@ public class UserDao {
     // String uid
     // String upwd
     // 반환 int(uno와 일치하는 int)
-    public int login(){
-        // 1. SQL 작성
-        // 2. SQL 기재
-        // 3. SQL 매개변수 대입
-        // 4. SQL 실행 select라서 executeQuery()
-        // 5. SQL 결과에 따른 로직/리턴/확인
-        return 0;
+    public int login(String uid, String upwd){
+        try {
+            // 1. SQL 작성
+            String sql = "select uno from user where uid = ? and upwd =?";
+            // 2. SQL 기재
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // 3. SQL 매개변수 대입
+            ps.setString(1, uid);
+            ps.setString(2, upwd);
+            // 4. SQL 실행 select라서 executeQuery()
+            ResultSet rs = ps.executeQuery();
+            // 5. SQL 결과에 따른 로직/리턴/확인
+            if(rs.next()){
+                return rs.getInt("uno"); // 로그인 성공하면 uno값을 반환한다.
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return 0; // 로그인 실패하면 0을 반환한다.
     }
 
     // (6) 로그아웃
     // 로그인 세션 만료 처리하고 콘솔 종료한다.
     // (static 변수 활용)
     // 반환 X
-    public void logout(){
+    public void logout(){ // 이건 할 필요없음
         // 1. SQL 작성
         // 2. SQL 기재
         // 3. SQL 매개변수 대입
@@ -166,12 +209,13 @@ public class UserDao {
     // 반환 불리언
     public boolean checkPwd(String upwd){
         try {
-            // 1. SQL 작성
-            String sql = "select * from user where upwd = ?";
+            // 1. SQL 작성. 현재 로그인한 사용자의 비밀번호를 확인해야함. where uno 작성
+            String sql = "select * from user where uno = ? and upwd = ?";
             // 2. SQL 기재
             PreparedStatement ps = conn.prepareStatement(sql);
-            // 3. SQL 매개변수 대입
-            ps.setString(1 , upwd);
+            // 3. SQL 매개변수 대입 , 현재 로그인 사용자의 uno를 대입한다.
+            ps.setInt(1, UserController.loginUno);
+            ps.setString(2 , upwd);
             // 4. SQL 실행 select라서 executeQuery()
             ResultSet rs = ps.executeQuery();
             // 5. SQL 결과에 따른 로직/리턴/확인
