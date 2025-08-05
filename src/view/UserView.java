@@ -5,6 +5,7 @@ import controller.ProductController;
 import controller.SampleController;
 import controller.UserController;
 import model.dto.ProductDto;
+import model.dto.SampleDto;
 import model.dto.UserDto;
 
 import java.util.ArrayList;
@@ -379,17 +380,52 @@ public class UserView {
 
     // 2-1) 제품 샘플 등록
     public void sampleAdd(){
-
+        // 1. 입력받기
+        scan.nextLine();
+        System.out.println("제품명 : ");
+        String sname = scan.nextLine();
+        System.out.println("규격 : ");
+        String sspec = scan.nextLine();
+        System.out.println("제조사 : ");
+        String smaker = scan.nextLine();
+        System.out.println("단위 : ");
+        String sunit = scan.nextLine();
+        // 2. controller 전달하기 // 3. 전달후 (결과)리턴값 저장하기
+        boolean result = sampleController.sampleAdd(sname, sspec, smaker, sunit);
+        if (result) {
+            System.out.println("[안내] 샘플 등록 완료");
+        } else {
+            System.out.println("[경고] 샘플 등록 불가 ");
+        }
+        //return result;
     }
 
     // 2-2) 제품 샘플 삭제
     public void sampleDel(){
-
+        System.out.println("=========================== 제품 삭제 페이지 ===========================");
+        samplePrint();
+        // 1. 입력받기
+        System.out.println("삭제할 제품의 번호를 입력 :");
+        int sno = scan.nextInt();
+        // 2. controller 전달하기 // 3. 전달 후 (결과)리턴값 저장하기
+        boolean result = sampleController.sampleDel(sno);
+        // 4. 리턴된 값에 따른 출력하기
+        if (result) {
+            System.out.println("[안내] 샘플 삭제 완료 ");
+        } else {
+            System.out.println("[경고] 없는 번호 이거나 실패 ");
+        }
     }
 
     // 2-3) 제품 샘플 조회
     public void samplePrint(){
-
+        // 1. controller에게 요청후 결과받기
+        ArrayList<SampleDto> result = sampleController.samplePrint();
+        // 2. 결과에 따른 화면구현
+        System.out.println(" no \t 제품명 \t 규격 \t 제조사 \t 단위 ");
+        for (SampleDto dto : result) { //향상된 for문, for( 항목타입 변수명 : 리스트명) { }
+            System.out.printf(" %s \t %s \t %s \t %s \t %s \n ", dto.getSno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit());
+        }
     }
 
     // 3-1) 제품 등록
