@@ -304,6 +304,13 @@ public class UserView {
         System.out.println("수정할 정보를 입력해주세요.");
         System.out.print("비밀번호 확인 : ");
         String upwd = scan.next();  // 기존 비밀번호
+        // * 유효성 검사
+        boolean check = userController.checkPwd(upwd);
+        if (!upwd.equals(check)){
+            System.out.println("[경고] 비밀번호를 확인해주세요.");
+            return;
+        }
+        // 검사 통과 후
         System.out.print("새 비밀번호 : ");
         String upwdNew = scan.next(); // 신규 비밀번호
         System.out.print("연락처 : ");
@@ -322,8 +329,31 @@ public class UserView {
 
     // 1-3) 사용자탈퇴
     public void userDelete(){
-        // 비밀 번호 입력받기
-        //
+        // 1. 입력받기
+        System.out.print("비밀번호 확인 : ");
+        String upwd = scan.next();  // 기존 비밀번호
+        // * 유효성 검사
+        boolean check = userController.checkPwd(upwd);
+        if (!upwd.equals(check)){
+            System.out.println("[경고] 비밀번호를 확인해주세요.");
+            return;
+        }
+        System.out.println("정말 삭제하시겠습니까? [Y/N]");
+        String deleteCheck = scan.next();
+        // * 유효성 검사
+        if (deleteCheck != "Y"){
+            System.out.println("[안내] 돌아와주셔서 감사합니다.");
+            mypageIndex();
+            return;
+        }
+        // 2. 컨트롤러에 전달 후 리턴값 저장
+        boolean result = userController.userDelete(loginUno);
+        // 3. 리턴값 출력
+        if (result){
+            System.out.println("[안내] 삭제 완료 되었습니다. 안녕히 가십시오.");
+        } else {
+            System.out.println("[경고] ");
+        }
     }
 
     // 1-4) 상세사용자조회

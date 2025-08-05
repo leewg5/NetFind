@@ -108,8 +108,8 @@ public class UserDao {
     // (3) 사용자탈퇴
     // 1. checkPwd()로 사용자에게 비밀번호를 입력받아 일치하는지 유효성 검사한다.
     // 2. 삭제 여부를 확인 후, 동의 시 DB의 해당 레코드를 영구 삭제한다.
-    // 반환 없음
-    public void userDelete(){
+    // 반환 없음 -> 불리언 반환
+    public boolean userDelete(int loginUno){
         try {
             // 1. SQL 작성
             String sql = "delete from user where uno = ?";
@@ -118,15 +118,21 @@ public class UserDao {
             // 3. SQL 매개변수 대입
             ps.setInt(1 , UserController.loginUno);
             // 4. SQL 실행
-            ps.executeUpdate();
+            int count = ps.executeUpdate();
             // 5. SQL 결과 확인(반환 없음)
+            if (count == 1){
+                return true;
+            } else {
+                return false;
+            }
         }catch (Exception e){
             System.out.println(e);
         } // catch end
+        return false;
     } // func end
 
     // (4) 상세사용자조회
-    // 1. 사용자(구매자)에게 제품번호를 입력받는다.
+    // 1. 사용자(구매자)에게 제품번호를 입력받는다. ->
     // 2. 제품번호를 PK로 하고, 회원번호를 FK로 조회하여 일치하는 사용자DB(판매자)를 찾는다.
     // 3. (제품번호, 제품명, 규격, 제조사, 단위, 가격, 재고, 상태를 DB에서 호출한다.)재영님구현
     // 그리고 사업자명, 사업자번호, 사업장주소지, 연락처를 DB에서 호출한다.
@@ -156,7 +162,6 @@ public class UserDao {
                 UserDto userDto = new UserDto(uno , "", "" , uphone , "" , ubname , ubnumber , ublocation);
                 // 배열리스트 타입 리스트 변수에 담기
                 list.add(userDto);
-
         } catch (Exception e){
             System.out.println(e);
         }
