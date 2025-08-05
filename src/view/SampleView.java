@@ -1,6 +1,6 @@
 package view;
 
-import controller.SampleController;
+//import controller.SampleController;
 
 import java.util.Scanner;
 
@@ -14,7 +14,7 @@ public class SampleView {
     // (*) 모든 메소드가 사용 가능하도록 메소드밖에 입력객체 생성
     private Scanner scan = new Scanner( System.in );
     // (*) BoardController 싱글톤 불러오기
-    private SampleController sampleController = SampleController.getInstance();
+//    private SampleController sampleController = SampleController.getInstance();
 
     // (*) 메인 화면 구현
     public void main(){

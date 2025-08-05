@@ -2,7 +2,7 @@ package view;
 
 import controller.NoteController;
 import controller.ProductController;
-import controller.SampleController;
+// import controller.SampleController;
 import controller.UserController;
 import model.dto.ProductDto;
 import model.dto.UserDto;
@@ -23,7 +23,7 @@ public class UserView {
 
     // (*) 컨트롤러 싱글톤 호출(
     private UserController userController = UserController.getInstance();
-    private SampleController sampleController = SampleController.getInstance();
+//    private SampleController sampleController = SampleController.getInstance();
     private ProductController productController = ProductController.getInstance();
     private NoteController noteController = NoteController.getInstance();
 
@@ -82,84 +82,15 @@ public class UserView {
                 System.out.println("└────────────┘");
                 int select = scan.nextInt();
                 if (select == 0) {
-                    System.out.println("========================== 제품 샘플 등록 페이지 ==========================");
-                    System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌────────────┐");
-                    System.out.println("  1. 제품샘플등록      2. 제품샘플삭제      3. 제품샘플조회      4. 홈 화면  ");
-                    System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └────────────┘");
-                    System.out.println("========================================================================");
-                    int selectSample = scan.nextInt();
-                    if (selectSample == 1) {
-                        sampleAdd();
-                    } else if (selectSample == 2) {
-                        sampleDel();
-                    } else if (selectSample == 3) {
-                        samplePrint();
-                    } else if (selectSample == 4) {
-                        continue;
-                    } else {
-                        System.out.println("[경고] 제시한 번호를 입력해주세요.");
-                    }
+                    sampleIndex();
                 } else if (select == 1) {
-                    System.out.println("============================ 판매 등록 페이지 ============================");
-                    System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌────────────┐");
-                    System.out.println("   1. 제품 등록         2. 제품 수정        3. 제품삭제         4. 홈 화면  ");
-                    System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └────────────┘");
-                    System.out.println("========================================================================");
-                    int selectProduct = scan.nextInt();
-                    if (selectProduct == 1) {
-                        productAdd();
-                    } else if (selectProduct == 2) {
-                        productUpdate();
-                    } else if (selectProduct == 3) {
-                        productDelete();
-                    } else if (selectProduct == 4) {
-                        continue;
-                    } else {
-                        System.out.println("[경고] 제시한 번호를 입력해주세요.");
-                    }
+                    productIndex();
                 } else if (select == 2) {
-                    System.out.println("============================ 조회 구매 페이지 ============================");
-                    System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌───────────────────┐  ┌───────────┐");
-                    System.out.println("  1. 장바구니담기       2. 장바구니확인     3. 장바구니삭제      4. 판매자상세페이지      5. 홈 화면 ");
-                    System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └───────────────────┘  └───────────┘");
-                    System.out.println("========================================================================");
-                    int selectCart = scan.nextInt();
-                    if (selectCart == 1) {
-                        cartAdd();
-                    } else if (selectCart == 2) {
-                        cartPrint();
-                    } else if (selectCart == 3) {
-                        cartDelete();
-                    } else if (selectCart == 4) {
-                        productPrint();
-                        userPrint();
-                        // 쪽지전송기능 판매자 선택 빼고 적용
-                    } else if (selectCart == 5) {
-                        continue;
-                    } else {
-                        System.out.println("[경고] 제시한 번호를 입력해주세요.");
-                    }
+                    cartIndex();
                 } else if (select == 3) {
-                    System.out.println("============================ 마이 페이지 ============================");
-                    System.out.println("┌────────────────┐ ┌────────────────┐ ┌─────────────┐ ┌────────────┐");
-                    System.out.println("  1. 사용자정보수정     2. 사용자정보삭제     3. 쪽지기능      4. 홈 화면    ");
-                    System.out.println("└────────────────┘ └────────────────┘ └─────────────┘ └────────────┘");
-                    System.out.println("=====================================================================");
-                    int selectUser = scan.nextInt();
-                    if (selectUser == 1) {
-                        userUpdate();
-                    } else if (selectUser == 2) {
-                        userDelete();
-                    } else if (selectUser == 3) {
-                        noteIndex();
-                    } else if (selectUser == 4) {
-                        continue;
-                    } else {
-                        System.out.println("[경고] 제시한 번호를 입력해주세요.");
-                    }
+                    mypageIndex();
                 } else if (select == 4) {
                     logout();
-                    break;
                 } else {
                     System.out.println("[경고] 제시한 번호를 입력해주세요.");
                 }
@@ -187,66 +118,13 @@ public class UserView {
                 System.out.println("└────────────┘");
                 int select = scan.nextInt();
                 if (select == 1) {
-                    System.out.println("============================ 판매 등록 페이지 ============================");
-                    System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌────────────┐");
-                    System.out.println("   1. 제품 등록         2. 제품 수정        3. 제품삭제         4. 홈 화면  ");
-                    System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └────────────┘");
-                    System.out.println("========================================================================");
-                    int selectProduct = scan.nextInt();
-                    if (selectProduct == 1) {
-                        productAdd();
-                    } else if (selectProduct == 2) {
-                        productUpdate();
-                    } else if (selectProduct == 3) {
-                        productDelete();
-                    } else if (selectProduct == 4) {
-                        continue;
-                    } else {
-                        System.out.println("[경고] 제시한 번호를 입력해주세요.");
-                    }
+                    productIndex();
                 } else if (select == 2) {
-                    System.out.println("============================ 조회 구매 페이지 ============================");
-                    System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌───────────────────┐  ┌───────────┐");
-                    System.out.println("  1. 장바구니담기       2. 장바구니확인     3. 장바구니삭제      4. 판매자상세페이지      5. 홈 화면 ");
-                    System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └───────────────────┘  └───────────┘");
-                    System.out.println("========================================================================");
-                    int selectCart = scan.nextInt();
-                    if (selectCart == 1) {
-                        cartAdd();
-                    } else if (selectCart == 2) {
-                        cartPrint();
-                    } else if (selectCart == 3) {
-                        cartDelete();
-                    } else if (selectCart == 4) {
-                        productPrint();
-                        userPrint();
-                        // 쪽지전송기능 판매자 선택 빼고 적용
-                    } else if (selectCart == 5) {
-                        continue;
-                    } else {
-                        System.out.println("[경고] 제시한 번호를 입력해주세요.");
-                    }
+                    cartIndex();
                 } else if (select == 3) {
-                    System.out.println("============================ 마이 페이지 ============================");
-                    System.out.println("┌────────────────┐ ┌────────────────┐ ┌─────────────┐ ┌────────────┐");
-                    System.out.println("  1. 사용자정보수정     2. 사용자정보삭제     3. 쪽지기능      4. 홈 화면    ");
-                    System.out.println("└────────────────┘ └────────────────┘ └─────────────┘ └────────────┘");
-                    System.out.println("=====================================================================");
-                    int selectUser = scan.nextInt();
-                    if (selectUser == 1) {
-                        userUpdate();
-                    } else if (selectUser == 2) {
-                        userDelete();
-                    } else if (selectUser == 3) {
-                        noteIndex();
-                    } else if (selectUser == 4) {
-                        continue;
-                    } else {
-                        System.out.println("[경고] 제시한 번호를 입력해주세요.");
-                    }
+                    mypageIndex();
                 } else if (select == 4) {
                     logout();
-                    break;
                 } else {
                     System.out.println("[경고] 제시한 번호를 입력해주세요.");
                 }
@@ -258,6 +136,137 @@ public class UserView {
             } // catch end
         } // for end
     } // main index end
+
+    // *) 제품 샘플 등록 인덱스
+    public void sampleIndex(){
+        try {
+            for (; ; ) {
+                System.out.println("========================== 제품 샘플 등록 페이지 ==========================");
+                System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌────────────┐");
+                System.out.println("  1. 제품샘플등록      2. 제품샘플삭제      3. 제품샘플조회      4. 홈 화면  ");
+                System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └────────────┘");
+                System.out.println("========================================================================");
+                int selectSample = scan.nextInt();
+                if (selectSample == 1) {
+                    sampleAdd();
+                } else if (selectSample == 2) {
+                    sampleDel();
+                } else if (selectSample == 3) {
+                    samplePrint();
+                } else if (selectSample == 4) {
+                    if(loginUno == 1){
+                        adminMain();
+                    } else {
+                        main();
+                    }
+                } else {
+                    System.out.println("[경고] 제시한 번호를 입력해주세요.");
+                }
+            } // for end
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    } // func end
+
+    // *) 판매 등록 인덱스
+    public void productIndex(){
+        try {
+            for (; ; ) {
+                System.out.println("============================ 판매 등록 페이지 ============================");
+                System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌────────────┐");
+                System.out.println("   1. 제품 등록         2. 제품 수정        3. 제품삭제         4. 홈 화면  ");
+                System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └────────────┘");
+                System.out.println("========================================================================");
+                int selectProduct = scan.nextInt();
+                if (selectProduct == 1) {
+                    productAdd();
+                } else if (selectProduct == 2) {
+                    productUpdate();
+                } else if (selectProduct == 3) {
+                    productDelete();
+                } else if (selectProduct == 4) {
+                    if (loginUno == 1){
+                        adminMain();
+                    } else {
+                        main();
+                    }
+                } else {
+                    System.out.println("[경고] 제시한 번호를 입력해주세요.");
+                }
+            } // for end
+        } catch (Exception e){
+            System.out.println(e);
+        } // catch end
+    } // func end
+
+    // *) 장바구니 인덱스
+    public void cartIndex(){
+        try{
+            for(;;){
+                System.out.println("============================ 조회 구매 페이지 ============================");
+                System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌───────────────────┐  ┌───────────┐");
+                System.out.println("  1. 장바구니담기       2. 장바구니확인     3. 장바구니삭제      4. 판매자상세페이지      5. 홈 화면 ");
+                System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └───────────────────┘  └───────────┘");
+                System.out.println("========================================================================");
+                int selectCart = scan.nextInt();
+                if (selectCart == 1) {
+                    cartAdd();
+                } else if (selectCart == 2) {
+                    cartPrint();
+                } else if (selectCart == 3) {
+                    cartDelete();
+                } else if (selectCart == 4) {
+                    productPrint();
+                    userPrint();
+                    // 쪽지전송기능 판매자 선택 빼고 적용
+                } else if (selectCart == 5) {
+                    if (loginUno == 1){
+                        adminMain();
+                    } else {
+                        main();
+                    }
+                } else {
+                    System.out.println("[경고] 제시한 번호를 입력해주세요.");
+                }
+            } // for end
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    // *) 마이페이지 인덱스
+    public void mypageIndex(){
+        try{
+            for (;;){
+                System.out.println("============================ 마이 페이지 ============================");
+                System.out.println("┌────────────────┐ ┌────────────────┐ ┌─────────────┐ ┌────────────┐");
+                System.out.println("  1. 사용자정보수정     2. 사용자정보삭제     3. 쪽지기능      4. 홈 화면    ");
+                System.out.println("└────────────────┘ └────────────────┘ └─────────────┘ └────────────┘");
+                System.out.println("=====================================================================");
+                int selectUser = scan.nextInt();
+                if (selectUser == 1) {
+                    userUpdate();
+                } else if (selectUser == 2) {
+                    userDelete();
+                } else if (selectUser == 3) {
+                    noteIndex();
+                } else if (selectUser == 4) {
+                    if (loginUno == 1){
+                        adminMain();
+                    } else {
+                        main();
+                    }
+                } else {
+                    System.out.println("[경고] 제시한 번호를 입력해주세요.");
+                }
+            } // for end
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+    }
+
+
 
     // 1-1 사용자등록(회원가입)
     // 아이디, 비밀번호, 연락처, 사용자명, 사업자명, 사업자번호, 사업장주소를 입력 받아 DB에 저장한다.
@@ -355,7 +364,7 @@ public class UserView {
         if (result){
             if (uid.equals("admin")){
                 System.out.println("[안내] 관리자 로그인 성공");
-                System.out.println(loginUno);
+                System.out.println(loginUno); // 나중에 삭제
                 adminMain();
             } else {
                 System.out.println("[안내] 로그인 성공");
@@ -375,6 +384,7 @@ public class UserView {
         userController.logout();
         // 3. 리턴값 출력
         System.out.println("[안내] 로그아웃 되었습니다.");
+        index();
     }
 
     // 2-1) 제품 샘플 등록
@@ -437,6 +447,7 @@ public class UserView {
     public void productPrint(int pno) {
         // 1. 입력받기 (pno)
 
+
         // 2. 컨트롤러 전달 후 리턴값 저장
         ArrayList<ProductDto> result = productController.productPrint();
         ArrayList<UserDto> result2 = userController.userPrint(pno);
@@ -472,7 +483,7 @@ public class UserView {
 
     }
 
-    // 4-*) 쪽지 인덱스
+    // 4*) 쪽지 인덱스
     public void noteIndex(){
 
     }
