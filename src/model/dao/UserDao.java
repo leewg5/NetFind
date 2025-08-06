@@ -152,16 +152,19 @@ public class UserDao {
             ResultSet rs = ps.executeQuery();
             // 5. SQL 결과에 따른 로직/리턴/확인 (어떤 내용을 호출/출력할 것인가)
             // 하나 찾는 거니까, while문 쓰지 말기.
-            rs.next();
+            if (rs.next() == false) {
+                return list;
+            } else {
                 int uno = rs.getInt("uno");
                 String ubname = rs.getString("ubname");
                 String ubnumber = rs.getString("ubnumber");
                 String ublocation = rs.getString("ublocation");
                 String uphone = rs.getString("uphone");
                 // 레코드 1개를 dto 타입으로 객체 저장
-                UserDto userDto = new UserDto(uno , "", "" , uphone , "" , ubname , ubnumber , ublocation);
+                UserDto userDto = new UserDto(uno, "", "", uphone, "", ubname, ubnumber, ublocation);
                 // 배열리스트 타입 리스트 변수에 담기
                 list.add(userDto);
+            }
         } catch (Exception e){
             System.out.println(e);
         }

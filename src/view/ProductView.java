@@ -206,6 +206,14 @@ public class ProductView {
     // 3-6) 장바구니 등록
     public void cartAdd(){
         try {
+            // 1. controller에게 요청후 결과받기
+            ArrayList<ProductDto> list = productController.productPrint();
+            // 2. 결과에 따른 화면구현
+            System.out.println(" 번호 \t 제품명 \t 규격 \t 제조사 \t 단위  \t\t 가격 \t 재고 \t 상태");
+            for (ProductDto dto : list) { //향상된 for문, for( 항목타입 변수명 : 리스트명) { }
+                String status = dto.isPstatus() ? "신품" : "중고";
+                System.out.printf(" %s \t %s \t %s \t %s \t %s \t %s \t %s \t %s \n", dto.getPno() , dto.getSname() , dto.getSspec() , dto.getSmaker() , dto.getSunit() , dto.getPprice() , dto.getPstock() , status);
+            }
             for (;;) {
                 // 1. 입력받기
                 System.out.print("장바구니에 담을 번호를 입력하세요 > ");
