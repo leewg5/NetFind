@@ -64,7 +64,7 @@ public class NoteDao {
         // ArrayList<BoardDto> : *배열* 대신에 다양한 편의성 기능을 제공하는 ArrayList 클래스
         ArrayList<NoteDto> list = new ArrayList<>();
         try{
-            String sql = "select * from note"; //1. SQL 작성
+            String sql = "select * from note where nsend = ? and nreceive = ?"; // 1. SQL 작성
             PreparedStatement ps = conn.prepareStatement(sql); // 2. SQL 기재
             //3. SQL 매개변수 대입, SQL 문법에 ?(매개변수)가 없어서 생략
             ResultSet rs = ps.executeQuery(); // 4. SQL 실행 , select = executeQuery()

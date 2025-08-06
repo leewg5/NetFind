@@ -1,10 +1,8 @@
 package model.dao;
 
 import controller.UserController;
-import model.dto.ProductDto;
 import model.dto.UserDto;
 
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -132,8 +130,8 @@ public class UserDao {
     } // func end
 
     // (4) 상세사용자조회
-    // 1. 사용자(구매자)에게 제품번호를 입력받는다. ->
-    // 2. 제품번호를 PK로 하고, 회원번호를 FK로 조회하여 일치하는 사용자DB(판매자)를 찾는다.
+    //    // 1. 사용자(구매자)에게 제품번호를 입력받는다. ->
+    //    // 2. 제품번호를 PK로 하고, 회원번호를 FK로 조회하여 일치하는 사용자DB(판매자)를 찾는다.
     // 3. (제품번호, 제품명, 규격, 제조사, 단위, 가격, 재고, 상태를 DB에서 호출한다.)재영님구현
     // 그리고 사업자명, 사업자번호, 사업장주소지, 연락처를 DB에서 호출한다.
     // 4.  사용자DB(판매자)의 uno를 받는 사람(nsend)의 FK로 받아, 쪽지 기능을 실행한다.
@@ -152,17 +150,48 @@ public class UserDao {
             ResultSet rs = ps.executeQuery();
             // 5. SQL 결과에 따른 로직/리턴/확인 (어떤 내용을 호출/출력할 것인가)
             // 하나 찾는 거니까, while문 쓰지 말기.
-            if (rs.next() == false) {
-                return list;
-            } else {
-                int uno = rs.getInt("uno");
-                String ubname = rs.getString("ubname");
-                String ubnumber = rs.getString("ubnumber");
-                String ublocation = rs.getString("ublocation");
-                String uphone = rs.getString("uphone");
-                // 레코드 1개를 dto 타입으로 객체 저장
+                if (rs.next() == false) {
+                    return list;
+                } else {
+                    int uno = rs.getInt("uno");
+                    String ubname = rs.getString("ubname");
+                    String ubnumber = rs.getString("ubnumber");
+                    String ublocation = rs.getString("ublocation");
+                    String uphone = rs.getString("uphone");
+                    // 레코드 1개를 dto 타입으로 객체 저장
                 UserDto userDto = new UserDto(uno, "", "", uphone, "", ubname, ubnumber, ublocation);
                 // 배열리스트 타입 리스트 변수에 담기
+                list.add(userDto);
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    // (*) 상세 페이지, 쪽지용 사용자 정보 조회
+    // 판매자 상세 페이지, 쪽지 전송 페이지에서 사용
+    // uno, uname, ubname, uphone, ublocation 차례대로 호출한다
+    public ArrayList<UserDto> userPrintDB(){
+        ArrayList<UserDto> list = new ArrayList<>();
+        try{
+            // 1. SQL 작성
+            String sql = "select uno , uname , ubname , uphone , ublocation from user";
+            // 2. SQL 기재
+            PreparedStatement ps = conn.prepareStatement(sql);
+            // 3. SQL 매개변수 대입
+            // 4. SQL 실행 select라서 executeQuery()
+            ResultSet rs = ps.executeQuery();
+            // 5. SQL 결과에 따른 로직/리턴/확인 (어떤 내용을 호출/출력할 것인가)
+            while (rs.next()) {
+                int uno = rs.getInt("uno");
+                String uname = rs.getString("uname");
+                String ubname = rs.getString("ubname");
+                String uphone = rs.getString("uphone");
+                String ublocation = rs.getString("ublocation");
+                // 레코드 1개를 dto 타입으로 객체 저장
+                UserDto userDto = new UserDto(uno, uname , ubname , uphone , ublocation);
+                // 배열리스트 타입 변수에 담기
                 list.add(userDto);
             }
         } catch (Exception e){

@@ -1,11 +1,6 @@
 package view;
 
-import controller.NoteController;
-import controller.ProductController;
-import controller.SampleController;
 import controller.UserController;
-import model.dto.ProductDto;
-import model.dto.SampleDto;
 import model.dto.UserDto;
 
 import java.util.ArrayList;
@@ -24,12 +19,11 @@ public class UserView {
 
     // (*) 컨트롤러 싱글톤 호출(
     private UserController userController = UserController.getInstance();
-    private SampleController sampleController = SampleController.getInstance();
-    private ProductController productController = ProductController.getInstance();
-    private NoteController noteController = NoteController.getInstance();
 
     // (*) View 싱글톤 호출
     private ProductView productView = ProductView.getInstance();
+    private NoteView noteView = NoteView.getInstance();
+    private SampleView sampleView = SampleView.getInstance();
 
     // (*) 입력 객체 만들기
     Scanner scan = new Scanner(System.in);
@@ -147,11 +141,11 @@ public class UserView {
                 System.out.print("  선택 >    ");
                 int selectSample = scan.nextInt();
                 if (selectSample == 1) {
-                    sampleAdd();
+                    sampleView.sampleAdd();
                 } else if (selectSample == 2) {
-                    sampleDel();
+                    sampleView.sampleDel();
                 } else if (selectSample == 3) {
-                    samplePrint();
+                    sampleView.samplePrint();
                 } else if (selectSample == 4) {
                     if(loginUno == 1){
                         adminMain();
@@ -264,6 +258,35 @@ public class UserView {
         }catch (Exception e){
             System.out.println(e);
         } // catch end
+    } // func end
+
+    // 4*) 쪽지 인덱스
+    public void noteIndex(){
+        for( ; ;) {
+            try {
+                System.out.println("=========================== 쪽지 기능 페이지 ===========================");
+                System.out.println("┌─────────────┐ ┌───────────────┐ ┌───────────────┐");
+                System.out.println("  1. 쪽지전송      2. 전체쪽지조회    3. 마이 페이지로");
+                System.out.println("└─────────────┘ └───────────────┘ └───────────────┘ ");
+                System.out.println("=====================================================================");
+                System.out.print("  선택 >     ");
+                int select = scan.nextInt();
+                if (select == 1) {
+                    noteView.noteAdd();
+                } else if (select == 2) {
+                    noteView.notePrint();
+                } else if (select == 3) {
+                    mypageIndex();
+                } else {
+                    System.out.println("[경고] 제시한 번호를 입력해주세요.");
+                }
+            } catch (InputMismatchException e){
+                System.out.println("[경고] 정수를 입력해주세요. <다시 입력>");
+                scan = new Scanner(System.in);
+            } catch (Exception e){
+                System.out.println("[오류] 관리자에게 문의해주세요. 010-1234-5678");
+            } // catch end
+        } // for end
     } // func end
 
     // 1-1 사용자등록(회원가입)
@@ -430,118 +453,6 @@ public class UserView {
         // 3. 리턴값 출력
         System.out.println("[안내] 로그아웃 되었습니다.");
         index();
-    }
-
-    // 2-1) 제품 샘플 등록
-    public void sampleAdd(){
-        try {
-            // 1. 입력 받기
-            System.out.println("============================ 제품 샘플 등록 페이지 ============================");
-            System.out.print("제품명 : ");
-            String sname = scan.next();
-            System.out.print("규격 : ");
-            String sspec = scan.next();
-            System.out.print("제조사 : ");
-            String smaker = scan.next();
-            System.out.print("단위 : ");
-            String sunit = scan.next();
-            System.out.println("============================================================================");
-            // 2. 컨트롤러에 전달
-            boolean result = sampleController.sampleAdd(sname, sspec , smaker , sunit);
-            // 3. 리턴값 출력
-            if (result) {
-                System.out.println("[안내] 샘플 등록 완료");
-            } else {
-                System.out.println("[경고] 샘플 등록 실패");
-            }
-        }catch (Exception e){
-            System.out.println(e);
-        } // catch end
-    }  // func end
-
-    // 2-2) 제품 샘플 삭제
-    public void sampleDel(){
-        System.out.println("=========================== 제품 삭제 페이지 ===========================");
-        samplePrint();
-        // 1. 입력받기
-        System.out.print("삭제할 제품의 번호를 입력 :");
-        int sno = scan.nextInt();
-        // 2. controller 전달하기 // 3. 전달 후 (결과)리턴값 저장하기
-        boolean result = sampleController.sampleDel(sno);
-        // 4. 리턴된 값에 따른 출력하기
-        if (result) {
-            System.out.println("[안내] 샘플 삭제 완료 ");
-        } else {
-            System.out.println("[경고] 없는 번호 이거나 실패 ");
-        }
-    }
-
-    // 2-3) 제품 샘플 조회
-    public void samplePrint(){
-        // 1. controller에게 요청후 결과받기
-        ArrayList<SampleDto> result = sampleController.samplePrint();
-        // 2. 결과에 따른 화면구현
-        System.out.println(" 번호 \t 제품명 \t 규격 \t 제조사 \t 단위");
-        for (SampleDto dto : result) { //향상된 for문, for( 항목타입 변수명 : 리스트명) { }
-            System.out.printf(" %s \t %s \t %s \t %s \t %s \n", dto.getSno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit());
-        }
-    }
-
-
-
-    // 4*) 쪽지 인덱스
-    public void noteIndex(){
-        for( ; ;) {
-            try {
-                System.out.println("=========================== 쪽지 기능 페이지 ===========================");
-                System.out.println("┌─────────────┐ ┌───────────────┐ ┌───────────────┐");
-                System.out.println("  1. 쪽지전송      2. 전체쪽지조회    3. 마이 페이지로");
-                System.out.println("└─────────────┘ └───────────────┘ └───────────────┘ ");
-                System.out.println("=====================================================================");
-                System.out.println("  선택 >     ");
-                int select = scan.nextInt();
-                if (select == 1) {
-                    noteAdd();
-                } else if (select == 2) {
-                    notePrint();
-                } else if (select == 3) {
-                    mypageIndex();
-                } else {
-                    System.out.println("[경고] 제시한 번호를 입력해주세요.");
-                }
-            } catch (InputMismatchException e){
-                System.out.println("[경고] 정수를 입력해주세요. <다시 입력>");
-                scan = new Scanner(System.in);
-            } catch (Exception e){
-                System.out.println("[오류] 관리자에게 문의해주세요. 010-1234-5678");
-            } // catch end
-        } // for end
-    } // func end
-
-    // 4-1) 쪽지 전송
-    public void noteAdd(){
-        try {
-            // 1. 입력받기
-            System.out.println("쪽지를 보낼 판매자를 선택하세요.");
-            System.out.println("번호 판매자 \t 제품요약 \t\t\t 금액 \t 결제시간");
-            System.out.println();
-
-            // 2. 컨트롤러에 전달 후 리턴값 저장
-            // 3. 리턴값 출력
-        } catch (Exception e){
-            System.out.println(e);
-        }
-    } // func end
-
-    // 4-2) 쪽지 조회
-    public void notePrint(){
-        try {
-            // 1. 입력받기
-            // 2. 컨트롤러에 전달 후 리턴값 저장
-            // 3. 리턴값 출력
-        } catch (Exception e){
-            System.out.println(e);
-        }
     }
 
 

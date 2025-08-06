@@ -51,6 +51,14 @@ public class UserDto {
     public UserDto() {
     }
 
+    public UserDto(int uno, String uname, String ubname, String uphone, String ublocation) {
+        this.uno = uno;
+        this.uname = uname;
+        this.ubname = ubname;
+        this.uphone = uphone;
+        this.ublocation = ublocation;
+    }
+
     // 3. 메소드 getter and setter , toString
     public int getUno() {
         return uno;

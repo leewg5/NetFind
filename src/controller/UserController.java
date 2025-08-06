@@ -95,12 +95,20 @@ public class UserController {
     }
 
     // (4) 사용자 정보 조회
-    public ArrayList<UserDto> userPrint(int pno){
+    public ArrayList<UserDto> userPrint(int uno){
         // 1. 유효성검사
         // 2. 객체화
         // 3. 객체화된 dto dao에게 전달 후 result
-        ArrayList<UserDto> result = userDao.userPrint(pno);
+        ArrayList<UserDto> result = userDao.userPrint(uno);
         // 4. view에게 리턴
+        return result;
+    }
+
+    // (*) 상세 페이지, 쪽지용 사용자 정보 조회
+    // 판매자 상세 페이지, 쪽지 전송 페이지에서 사용
+    // uno, uname, ubname, uphone, ublocation 차례대로 호출한다
+    public ArrayList<UserDto> userPrintDB(){
+        ArrayList<UserDto> result = userDao.userPrintDB();
         return result;
     }
 
