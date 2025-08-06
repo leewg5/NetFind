@@ -51,7 +51,7 @@ public class UserView {
                 System.out.println("  1. 로그인      2. 회원가입  ");
                 System.out.println("└───────────┘ └────────────┘");
                 System.out.println("========================================================================");
-                System.out.println("  선택 >    ");
+                System.out.print("  선택 >    ");
                 int select = scan.nextInt();
                 if (select == 1) {
                     login();
@@ -76,7 +76,7 @@ public class UserView {
                 System.out.println("  0. 샘플관리      1. 판매등록      2. 조회구매      3. 마이페이지   4. 로그아웃 ");
                 System.out.println("└─────────────┘ └─────────────┘ └────────────┘ └────────────┘ └───────────┘");
                 System.out.println("===========================================================================");
-                System.out.println("  선택 >     ");
+                System.out.print("  선택 >     ");
                 int select = scan.nextInt();
                 if (select == 0) {
                     sampleIndex();
@@ -110,7 +110,7 @@ public class UserView {
                 System.out.println("  1. 판매등록      2. 조회구매      3. 마이페이지    4. 로그아웃 ");
                 System.out.println("└─────────────┘ └────────────┘ └─────────────┘ └────────────┘");
                 System.out.println("========================================================================");
-                System.out.println("  선택 >    ");
+                System.out.print("  선택 >    ");
                 int select = scan.nextInt();
                 if (select == 1) {
                     productIndex();
@@ -141,6 +141,7 @@ public class UserView {
                 System.out.println("  1. 제품샘플등록      2. 제품샘플삭제      3. 제품샘플조회      4. 홈 화면  ");
                 System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └────────────┘");
                 System.out.println("========================================================================");
+                System.out.print("  선택 >    ");
                 int selectSample = scan.nextInt();
                 if (selectSample == 1) {
                     sampleAdd();
@@ -172,6 +173,7 @@ public class UserView {
                 System.out.println("   1. 제품 등록         2. 제품 수정        3. 제품삭제         4. 홈 화면  ");
                 System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └────────────┘");
                 System.out.println("========================================================================");
+                System.out.print("  선택 >    ");
                 int selectProduct = scan.nextInt();
                 if (selectProduct == 1) {
                     productAdd();
@@ -203,6 +205,7 @@ public class UserView {
                 System.out.println("  1. 장바구니담기       2. 장바구니확인     3. 장바구니삭제      4. 판매자상세페이지      5. 홈 화면 ");
                 System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └───────────────────┘  └───────────┘");
                 System.out.println("========================================================================");
+                System.out.print("  선택 >    ");
                 int selectCart = scan.nextInt();
                 if (selectCart == 1) {
                     cartAdd();
@@ -238,6 +241,7 @@ public class UserView {
                 System.out.println("  1. 사용자정보수정     2. 사용자정보삭제     3. 쪽지기능      4. 홈 화면    ");
                 System.out.println("└────────────────┘ └────────────────┘ └─────────────┘ └────────────┘");
                 System.out.println("=====================================================================");
+                System.out.print("  선택 >    ");
                 int selectUser = scan.nextInt();
                 if (selectUser == 1) {
                     userUpdate();
@@ -257,11 +261,8 @@ public class UserView {
             } // for end
         }catch (Exception e){
             System.out.println(e);
-        }
-
-    }
-
-
+        } // catch end
+    } // func end
 
     // 1-1 사용자등록(회원가입)
     // 아이디, 비밀번호, 연락처, 사용자명, 사업자명, 사업자번호, 사업장주소를 입력 받아 DB에 저장한다.
@@ -444,10 +445,13 @@ public class UserView {
             String sunit = scan.next();
             System.out.println("============================================================================");
             // 2. 컨트롤러에 전달
-            // boolean result = sampleController.sampleAdd(sname, sspec , smaker , sunit);
+            boolean result = sampleController.sampleAdd(sname, sspec , smaker , sunit);
             // 3. 리턴값 출력
-
-
+            if (result) {
+                System.out.println("[안내] 샘플 등록 완료");
+            } else {
+                System.out.println("[경고] 샘플 등록 실패");
+            }
         }catch (Exception e){
             System.out.println(e);
         } // catch end
@@ -475,7 +479,7 @@ public class UserView {
         // 1. controller에게 요청후 결과받기
         ArrayList<SampleDto> result = sampleController.samplePrint();
         // 2. 결과에 따른 화면구현
-        System.out.println(" no \t 제품명 \t 규격 \t 제조사 \t 단위 ");
+        System.out.println(" 번호 \t 제품명 \t 규격 \t 제조사 \t 단위 ");
         for (SampleDto dto : result) { //향상된 for문, for( 항목타입 변수명 : 리스트명) { }
             System.out.printf(" %s \t %s \t %s \t %s \t %s \n ", dto.getSno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit());
         }
@@ -593,12 +597,28 @@ public class UserView {
 
     // 4-1) 쪽지 전송
     public void noteAdd(){
+        try {
+            // 1. 입력받기
+            System.out.println("쪽지를 보낼 판매자를 선택하세요.");
+            System.out.println("번호 판매자 \t 제품요약 \t\t\t 금액 \t 결제시간");
+            System.out.println();
 
-    }
+            // 2. 컨트롤러에 전달 후 리턴값 저장
+            // 3. 리턴값 출력
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    } // func end
 
     // 4-2) 쪽지 조회
     public void notePrint(){
-
+        try {
+            // 1. 입력받기
+            // 2. 컨트롤러에 전달 후 리턴값 저장
+            // 3. 리턴값 출력
+        } catch (Exception e){
+            System.out.println(e);
+        }
     }
 
 

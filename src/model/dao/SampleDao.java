@@ -60,7 +60,7 @@ public class SampleDao {
     public boolean sampleDel( int sno ){
         try{
             // 1. SQL 작성한다.
-            String sql = "delete from sample where wno = ?";
+            String sql = "delete from sample where sno = ?";
             // 2. SQL 기재한다.
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. SQL 매개변수 대입
