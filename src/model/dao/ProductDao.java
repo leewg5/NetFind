@@ -147,6 +147,7 @@ public class ProductDao {
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. sql 문에 필요한 데이터 삽입
             ps.setInt(1, pno);
+            ps.setInt(2, loginUno);
             // 4. sql문 실행
             int count = ps.executeUpdate();
             // 5. 실행 후 반환
