@@ -578,7 +578,7 @@ public class UserView {
                 System.out.println("[오류] 관리자에게 문의해주세요. 010-1234-5678");
             } // catch end
         } // for end
-    }
+    } // func end
 
     // 4-1) 쪽지 전송
     public void noteAdd(){
