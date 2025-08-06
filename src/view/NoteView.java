@@ -57,13 +57,13 @@ public class NoteView {
         try {
             ArrayList<NoteDto> list = noteController.notePrint();
             System.out.println("번호\t보낸사람\t받는사람\t쪽지내용\t\t\t작성일");
-
+            int nno = 1;
             for (NoteDto dto : list ){
                 String senderName = noteController.getUnameByUno(dto.getNsend());
                 String receiverName = noteController.getUnameByUno(dto.getNreceive());
 
                 System.out.printf("%s\t%s\t\t%s\t%s\t%s\n",
-                        dto.getNno(),
+                        nno++,
                         senderName,
                         receiverName,
                         dto.getNcontext(),

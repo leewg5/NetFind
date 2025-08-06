@@ -85,6 +85,7 @@ public class ProductView {
 
     // 3-3) 전체 제품 조회 (판매자 상세 페이지용)
     public void productDetailPrint() {
+        SampleView.getInstance().samplePrint();
         try {
             // 1. 입력받기 (pno)
             System.out.print("상세 조회할 판매자의 번호를 입력하세요 > ");
