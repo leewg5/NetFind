@@ -132,7 +132,6 @@ public class UserController {
     // uno와 loginUno가 일치하는지 확인
     public boolean checkPwd(String upwd){
         // 객체화
-        UserDto userDto = new UserDto(upwd);
         // result
         boolean result = userDao.checkPwd(upwd);
         // view 리턴
