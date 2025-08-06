@@ -44,9 +44,9 @@ public class NoteController {
     // (*) 유저 리스트에서 uname 참조용 메소드
     public String getUnameByUno(int uno){
         for (UserDto user : userController.userPrintDB()) {
-            if (user.getUno() == uno) return user.getUname();
+            if (user.getUno() == uno) return user.getUname(); 
         }
-        return "알 수 없음";
+        return "알 수 없음"; // uname 찾을 수 없을 경우 반환
     }
 
 
