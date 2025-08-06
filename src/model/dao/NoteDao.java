@@ -1,5 +1,6 @@
 package model.dao;
 
+import controller.UserController;
 import model.dto.NoteDto;
 import java.sql.Connection;
 import java.sql.DriverManager;
