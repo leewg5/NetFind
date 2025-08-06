@@ -2,6 +2,7 @@ package view;
 
 import controller.NoteController;
 import controller.ProductController;
+import controller.SampleController;
 import controller.UserController;
 import model.dto.ProductDto;
 import model.dto.UserDto;
@@ -11,47 +12,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ProductView {
-    /*
-    else if (select == 1) {
-                    System.out.println("============================ 판매 등록 페이지 ============================");
-                    System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌────────────┐");
-                    System.out.println("   1. 제품 등록         2. 제품 수정        3. 제품삭제         4. 홈 화면  ");
-                    System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └────────────┘");
-                    System.out.println("========================================================================");
-                    int selectProduct = scan.nextInt();
-                    if (selectProduct == 1) {
-                        productAdd();
-                    } else if (selectProduct == 2) {
-                        productUpdate();
-                    } else if (selectProduct == 3) {
-                        productDelete();
-                    } else if (selectProduct == 4) {
-                        continue;
-                    } else {
-                        System.out.println("[경고] 제시한 번호를 입력해주세요.");
-                    }
-                } else if (select == 2) {
-                    System.out.println("============================ 조회 구매 페이지 ============================");
-                    System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌───────────────────┐  ┌───────────┐");
-                    System.out.println("  1. 장바구니담기       2. 장바구니확인     3. 장바구니삭제      4. 판매자상세페이지      5. 홈 화면 ");
-                    System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └───────────────────┘  └───────────┘");
-                    System.out.println("========================================================================");
-                    int selectCart = scan.nextInt();
-                    if (selectCart == 1) {
-                        cartAdd();
-                    } else if (selectCart == 2) {
-                        cartPrint();
-                    } else if (selectCart == 3) {
-                        cartDelete();
-                    } else if (selectCart == 4) {
-                        productPrint();
-                        userPrint();
-                        // 쪽지전송기능 판매자 선택 빼고 적용
-                    } else if (selectCart == 5) {
-                        continue;
-                    } else {
-                        System.out.println("[경고] 제시한 번호를 입력해주세요.");
-     */
     // (*) 싱글톤
     private ProductView() {}
     private static final ProductView instance = new ProductView();
@@ -59,13 +19,14 @@ public class ProductView {
         return instance;
     }
     private Scanner scan = new Scanner(System.in);
+    private NoteController noteController = NoteController.getInstance();
     private ProductController productController = ProductController.getInstance();
     private UserController userController = UserController.getInstance();
-    private NoteController noteController = NoteController.getInstance();
+
 
     // 3-1) 제품 등록
     public void productAdd() {
-        // samplePrint(); // 제품샘플조회 함수 호출 TODO
+        SampleView.getInstance().samplePrint();
         try {
             // 1. 입력받기
             System.out.println("============= 제품 등록 페이지 =============");
@@ -123,7 +84,7 @@ public class ProductView {
     }
 
     // 3-3) 전체 제품 조회 (판매자 상세 페이지용)
-    public void productDetailPrint() { // TODO
+    public void productDetailPrint() {
         try {
             // 1. 입력받기 (pno)
             System.out.print("상세 조회할 판매자의 번호를 입력하세요 > ");
@@ -149,6 +110,7 @@ public class ProductView {
             // 4. 쪽지 입력
             System.out.print("쪽지를 보내시겠습니까? [Y/N] ");
             String note = scan.next();
+            note = note.toUpperCase(); // y/n을 Y/N으로 (소문자를 대문자로) 변경
             if (note.equals("Y")) {
                 System.out.print("쪽지 내용 : ");
                 scan.nextLine();
@@ -161,9 +123,12 @@ public class ProductView {
                 } else {
                     System.out.println("[경고] 쪽지 전송 실패");
                 }
-            } else if (note.equals("N"))
+            } else if (note.equals("N")) {
                 return;
-
+            } else {
+                System.out.println("[경고] 유효한 값을 입력해주세요.");
+                return;
+            }
         } catch (InputMismatchException e) {
             System.out.println("[경고] 유효한 값을 입력해주세요.");
             scan = new Scanner(System.in);
@@ -222,7 +187,6 @@ public class ProductView {
             int pno = scan.nextInt();
 
             // 2. pno 를 컨트롤러에 전달, 리턴값 저장
-            // TODO: loginUno와 제품의 uno가 같은 내용만 삭제할 수 있게 해야 하는 것이 아닌지?
             boolean result = productController.productDelete(pno);
 
             // 3. 리턴값 출력
@@ -241,16 +205,86 @@ public class ProductView {
 
     // 3-6) 장바구니 등록
     public void cartAdd(){
+        try {
+            for (;;) {
+                // 1. 입력받기
+                System.out.print("장바구니에 담을 번호를 입력하세요 >");
+                int num = scan.nextInt();
+                System.out.print("수량을 입력하세요 : ");
+                int stock = scan.nextInt();
 
+                // 2. 컨트롤러에 전달 및 리턴
+                int result = productController.cartAdd(num, stock);
+                if (result == 1) {
+                    System.out.println("[경고] 담으려는 물품의 수량이 재고의 양보다 많습니다.");
+                    System.out.println("[경고] 장바구니에 물품을 담지 못했습니다.");
+                } else if (result == 2) {
+                    System.out.println("[경고] 오류가 발생하였습니다. 관리자에게 문의해주세요.");
+                    System.out.println("[경고] 장바구니에 물품을 담지 못했습니다.");
+                }
+                // 3. 장바구니 입력 완료 후 반복 여부 확인
+                String check = "N";
+                do {
+                    System.out.print("계속 담으시겠습니까? [Y/N] ");
+                    check = scan.next();
+                    check = check.toUpperCase(); // y/n을 Y/N으로 (소문자를 대문자로) 변경
+                    if (check.equals("N")) return;
+                    else {
+                        System.out.println("[경고] 유효한 값을 입력해주세요.");
+                    }
+                } while (check.equals("Y"));
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("[경고] 유효한 값을 입력해주세요.");
+            scan = new Scanner(System.in);
+        } catch (Exception e) {
+            System.out.println("[경고] 오류가 발생하였습니다. 관리자에게 문의해주세요.");
+        }
     }
 
     // 3-7) 장바구니 조회
     public void cartPrint(){
+        // 1. 입력받기 (없음)
+        // 2. 컨트롤러 전달 후 리턴값 저장
+        ArrayList<ProductDto> result = productController.cartPrint();
 
+        // 3. 화면 구현
+        System.out.println("번호 \t 제품정보 \t\t\t\t 가격 \t 수량");
+        for (ProductDto dto : result) {
+            System.out.printf("%d. %s %s (%s, %s) %d , %d\n",
+                    dto.getPno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit(),
+                    dto.getPprice(), dto.getPstock());
+        }
+        System.out.println("----------------------------------------------\n");
     }
 
     // 3-8) 장바구니 삭제
     public void cartDelete(){
-
+        try {
+            // 1. 입력받기
+            System.out.print("장바구니 목록 전체를 삭제하시겠습니까? [Y/N] ");
+            String check = scan.next();
+            check = check.toUpperCase(); // y/n을 Y/N으로 (소문자를 대문자로) 변경
+            if (check.equals("Y")) {
+                // 2. 로직 처리
+                boolean result = productController.cartDelete();
+                // 3. 리턴값 출력
+                if (result) {
+                    System.out.println("[안내] 장바구니 전체 삭제되었습니다.");
+                } else {
+                    System.out.println("[경고] 장바구니 삭제에 실패하였습니다.");
+                }
+            } else if (check.equals("N")) {
+                return;
+            } else {
+                System.out.println("[경고] 유효한 값을 입력해주세요.");
+                return;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("[경고] 유효한 값을 입력해주세요.");
+            scan = new Scanner(System.in);
+        } catch (Exception e) {
+            System.out.println("[경고] 오류가 발생하였습니다. 관리자에게 문의해주세요.");
+        }
     }
 }

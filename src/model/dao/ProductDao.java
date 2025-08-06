@@ -142,15 +142,15 @@ public class ProductDao {
     public boolean productDelete(int pno) {
         try {
             // 1. 제품 삭제 sql문
-            String sql = "delete from product where pno = ?";
+            String sql = "delete from product where pno = ? and uno = ?";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. sql 문에 필요한 데이터 삽입
             ps.setInt(1, pno);
             // 4. sql문 실행
-            ps.executeUpdate();
+            int count = ps.executeUpdate();
             // 5. 실행 후 반환
-            return true; // 실행 완료 시 true 반환
+            return count == 1; // 실행 완료 시 true 반환, 삭제하지 못했을 시 false 반환
         } catch (Exception e) {
             System.out.println(e);
             return false; // 오류 발생 시 false 반환
