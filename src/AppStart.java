@@ -1,3 +1,4 @@
+import view.ProductView;
 import view.UserView;
 
 public class AppStart {

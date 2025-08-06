@@ -208,7 +208,7 @@ public class ProductView {
         try {
             for (;;) {
                 // 1. 입력받기
-                System.out.print("장바구니에 담을 번호를 입력하세요 >");
+                System.out.print("장바구니에 담을 번호를 입력하세요 > ");
                 int num = scan.nextInt();
                 System.out.print("수량을 입력하세요 : ");
                 int stock = scan.nextInt();
@@ -224,15 +224,16 @@ public class ProductView {
                 }
                 // 3. 장바구니 입력 완료 후 반복 여부 확인
                 String check = "N";
-                do {
+                for (;;) {
                     System.out.print("계속 담으시겠습니까? [Y/N] ");
                     check = scan.next();
                     check = check.toUpperCase(); // y/n을 Y/N으로 (소문자를 대문자로) 변경
-                    if (check.equals("N")) return;
+                    if (check.equals("Y")) break;
+                    else if (check.equals("N")) return;
                     else {
                         System.out.println("[경고] 유효한 값을 입력해주세요.");
                     }
-                } while (check.equals("Y"));
+                }
             }
         } catch (InputMismatchException e) {
             System.out.println("[경고] 유효한 값을 입력해주세요.");
