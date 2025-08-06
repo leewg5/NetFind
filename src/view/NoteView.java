@@ -47,6 +47,7 @@ public class NoteView {
             } else {
                 System.out.println("[경고] 쪽지 전송 실패");
             }
+            System.out.println("------------------------------------------------------------------------------");
         } catch (Exception e){
             System.out.println(e);
         } // catch end

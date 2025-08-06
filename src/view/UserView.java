@@ -223,6 +223,7 @@ public class UserView {
                     System.out.println("[경고] 제시한 번호를 입력해주세요.");
                 }
             } // for end
+
         } catch (Exception e){
             System.out.println(e);
         }
