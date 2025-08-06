@@ -92,6 +92,11 @@ public class ProductView {
             // 2. 컨트롤러 전달 후 리턴값 저장
             ArrayList<ProductDto> pResult = productController.productPrint(uno);
             ArrayList<UserDto> uResult = userController.userPrint(uno);
+
+            if (pResult.isEmpty() || uResult.isEmpty()) {
+                System.out.println("[경고] 존재하지 않는 판매자 번호입니다.");
+                return;
+            }
             // 3. 화면구현
             System.out.println("============= 판매자 상세 페이지 =============");
             System.out.println("번호 | 제품명 | 규격 | 제조사 | 단위 | 가격 | 재고 | 상태");
