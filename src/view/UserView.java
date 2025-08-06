@@ -28,6 +28,9 @@ public class UserView {
     private ProductController productController = ProductController.getInstance();
     private NoteController noteController = NoteController.getInstance();
 
+    // (*) View 싱글톤 호출
+    private ProductView productView = ProductView.getInstance();
+
     // (*) 입력 객체 만들기
     Scanner scan = new Scanner(System.in);
 
@@ -176,11 +179,11 @@ public class UserView {
                 System.out.print("  선택 >    ");
                 int selectProduct = scan.nextInt();
                 if (selectProduct == 1) {
-                    productAdd();
+                    productView.productAdd();
                 } else if (selectProduct == 2) {
-                    productUpdate();
+                    productView.productUpdate();
                 } else if (selectProduct == 3) {
-                    productDelete();
+                    productView.productDelete();
                 } else if (selectProduct == 4) {
                     if (loginUno == 1){
                         adminMain();
@@ -205,18 +208,17 @@ public class UserView {
                 System.out.println("  1. 장바구니담기       2. 장바구니확인     3. 장바구니삭제      4. 판매자상세페이지      5. 홈 화면 ");
                 System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └───────────────────┘  └───────────┘");
                 System.out.println("========================================================================");
+                System.out.println("* 판매자상세페이지에서 쪽지를 보낼 수 있습니다.");
                 System.out.print("  선택 >    ");
                 int selectCart = scan.nextInt();
                 if (selectCart == 1) {
-                    cartAdd();
+                    productView.cartAdd();
                 } else if (selectCart == 2) {
-                    cartPrint();
+                    productView.cartPrint();
                 } else if (selectCart == 3) {
-                    cartDelete();
+                    productView.cartDelete();
                 } else if (selectCart == 4) {
-                    productPrint();
-                    userPrint();
-                    // 쪽지전송기능 판매자 선택 빼고 적용
+                    productView.productDetailPrint();
                 } else if (selectCart == 5) {
                     if (loginUno == 1){
                         adminMain();
@@ -462,7 +464,7 @@ public class UserView {
         System.out.println("=========================== 제품 삭제 페이지 ===========================");
         samplePrint();
         // 1. 입력받기
-        System.out.println("삭제할 제품의 번호를 입력 :");
+        System.out.print("삭제할 제품의 번호를 입력 :");
         int sno = scan.nextInt();
         // 2. controller 전달하기 // 3. 전달 후 (결과)리턴값 저장하기
         boolean result = sampleController.sampleDel(sno);
@@ -479,92 +481,13 @@ public class UserView {
         // 1. controller에게 요청후 결과받기
         ArrayList<SampleDto> result = sampleController.samplePrint();
         // 2. 결과에 따른 화면구현
-        System.out.println(" 번호 \t 제품명 \t 규격 \t 제조사 \t 단위 ");
+        System.out.println(" 번호 \t 제품명 \t 규격 \t 제조사 \t 단위");
         for (SampleDto dto : result) { //향상된 for문, for( 항목타입 변수명 : 리스트명) { }
-            System.out.printf(" %s \t %s \t %s \t %s \t %s \n ", dto.getSno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit());
+            System.out.printf(" %s \t %s \t %s \t %s \t %s \n", dto.getSno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit());
         }
     }
 
-    // 3-1) 제품 등록
-    public void productAdd(){
-        samplePrint(); // 제품샘플조회 함수 호출
-        // 1. 입력받기
-        System.out.println("============= 제품등록 페이지 =============");
-        System.out.println("┌──────────────────┐");
-        System.out.println("│  추가할 제품 번호 > ");
-        System.out.println("└──────────────────┘");
-        int sno = scan.nextInt();
-        System.out.println("=========================================");
-        System.out.print("가격 : ");
-        int pprice = scan.nextInt();
-        System.out.print("재고 : ");
-        int pstock = scan.nextInt();
-        System.out.print("상태 : *신품이면 true, 중고이면 false 입력해주세요.*");
-        boolean pstatus = scan.nextBoolean();
-        // 2. 컨트롤러에 전달 후 리턴값 저장
-        boolean result = productController.productAdd(sno, pprice, pstock, pstatus);
-        // 3. 리턴값 출력
-        if(result){
-            System.out.println("[안내] 제품 등록 성공");
-        } else {
-            System.out.println("[경고] 제품 등록 실패");
-        }
-    } // func end
 
-    // 3-2) 전체 제품 조회
-    public void productPrint(){
-        // 1. 입력받기 (없음)
-        // 2. 컨트롤러 전달 후 리턴값 저장
-        ArrayList<ProductDto> result = productController.productPrint();
-
-        // 3. 화면 구현
-        System.out.println("============= 전체제품조회 페이지 =============");
-        System.out.printf("번호 \t 판매자 \t 제품정보 \t\t\t\t\t\t 가격");
-        for (ProductDto dto : result){
-            System.out.printf("%s \t %s \t %s \n", dto.getPno());
-        }
-
-    }
-
-    // 3-3) 전체 제품 조회 (판매자 상세 페이지용)
-    public void productPrint(int pno) {
-        // 1. 입력받기 (pno)
-
-
-        // 2. 컨트롤러 전달 후 리턴값 저장
-        ArrayList<ProductDto> result = productController.productPrint();
-        ArrayList<UserDto> result2 = userController.userPrint(pno);
-        // 3. 화면구현
-        System.out.println("============= 판매자 상세 제품 조회 페이지 =============");
-
-        userPrint(); // 사용자 조회 함수 호출
-
-    } // func end
-
-    // 3-4) 제품 수정
-    public void productUpdate(){
-
-    }
-
-    // 3-5) 제품 삭제
-    public void productDelete(){
-
-    }
-
-    // 3-6) 장바구니 등록
-    public void cartAdd(){
-
-    }
-
-    // 3-7) 장바구니 조회
-    public void cartPrint(){
-
-    }
-
-    // 3-8) 장바구니 삭제
-    public void cartDelete(){
-
-    }
 
     // 4*) 쪽지 인덱스
     public void noteIndex(){
