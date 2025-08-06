@@ -55,19 +55,25 @@ public class NoteView {
     // 4-2) 쪽지 조회
     public void notePrint(){
         try {
-            // 1. 입력받기
-            // 2. 컨트롤러에 전달 후 리턴값 저장
             ArrayList<NoteDto> list = noteController.notePrint();
-            System.out.println("번호 보낸사람 \t 받는사람 \t 쪽지내용 \t\t\t 작성일");
+            System.out.println("번호\t보낸사람\t받는사람\t쪽지내용\t\t\t작성일");
+
             for (NoteDto dto : list ){
-                System.out.printf("%s \t %s \t\t %s \t %s \t %s \n" , dto.getNno() , dto.getNsend() , dto.getNreceive() , dto.getNcontext() , dto.getNdate());
+                String senderName = noteController.getUnameByUno(dto.getNsend());
+                String receiverName = noteController.getUnameByUno(dto.getNreceive());
+
+                System.out.printf("%s\t%s\t\t%s\t%s\t%s\n",
+                        dto.getNno(),
+                        senderName,
+                        receiverName,
+                        dto.getNcontext(),
+                        dto.getNdate());
             }
             System.out.println("------------------------------------------------------------------------------");
         } catch (Exception e){
             System.out.println(e);
         }
     }
-
 
 
 }

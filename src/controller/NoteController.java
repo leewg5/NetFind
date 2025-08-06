@@ -2,6 +2,7 @@ package controller;
 
 import model.dao.NoteDao;
 import model.dto.NoteDto;
+import model.dto.UserDto;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,9 @@ public class NoteController {
 
     //(*) noteDao 싱글톤 가져오기
     private NoteDao noteDao = NoteDao.getInstance();
+
+    // (*) userControl 싱글톤
+    private UserController userController = UserController.getInstance();
 
     //(1) 등록 기능 구현
     public boolean noteAdd(int nreceive, String ncontext){
@@ -35,6 +39,14 @@ public class NoteController {
         //4. 결과를 view에게 리턴한다.
         return result;
 
+    } // func end
+
+    // (*) 유저 리스트에서 uname 참조용 메소드
+    public String getUnameByUno(int uno){
+        for (UserDto user : userController.userPrintDB()) {
+            if (user.getUno() == uno) return user.getUname();
+        }
+        return "알 수 없음";
     }
 
 
