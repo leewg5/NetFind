@@ -90,9 +90,12 @@ public class ProductView {
 
     // 3-3) 전체 제품 조회 (판매자 상세 페이지용)
     public void productDetailPrint() {
-        SampleView.getInstance().samplePrint();
+        ArrayList<UserDto> list = userController.userPrintDB();
+        for (UserDto dto : list ){
+            System.out.printf("%s \t %s \t\t %s \t %s \t %s \n" , dto.getUno() , dto.getUname() , dto.getUbname() , dto.getUphone() , dto.getUblocation());
+        }
         try {
-            // 1. 입력받기 (pno)
+            // 1. 입력받기 (uno)
             System.out.print("상세 조회할 판매자의 번호를 입력하세요 > ");
             int uno = scan.nextInt();
             // 2. 컨트롤러 전달 후 리턴값 저장

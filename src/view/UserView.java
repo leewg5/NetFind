@@ -396,26 +396,6 @@ public class UserView {
         }
     } // func end
 
-    // 1-4) 상세사용자조회
-    public void userPrint(){
-        try {
-            // 1. 입력받기
-            System.out.println("============================ 판매자 상세 페이지 ============================");
-            System.out.println(" 상세조회할 판매자 번호 > ");
-            int pno = scan.nextInt();
-            // 2. 컨트롤러에 전달 후 리턴값 저장
-            ArrayList<UserDto> result = userController.userPrint(pno);
-            // 3. 화면 구현
-            System.out.println("사업자명 | 사업자번호    | 사업장주소지");
-            for (UserDto dto : result) {
-                System.out.println(dto.getUbname() + "|" + dto.getUbnumber() + "|" + dto.getUblocation());
-                System.out.println("☎Tel | " + dto.getUphone());
-            }
-        }catch (Exception e){
-            System.out.println(e);
-        }
-    } // func end
-
     // 1-5) 로그인
     // admin일 경우 adminMain, 그 외의 회원일 경우 main으로 이동
     public void login(){
