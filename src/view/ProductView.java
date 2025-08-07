@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static controller.UserController.loginUno;
+
 public class ProductView {
     // (*) 싱글톤
     private ProductView() {}
@@ -67,20 +69,23 @@ public class ProductView {
     } // func end
 
     // 3-2) 전체 제품 조회
-    public void productPrint() {
+    public ArrayList<Integer> productPrint() {
         // 1. 입력받기 (없음)
         // 2. 컨트롤러 전달 후 리턴값 저장
-        ArrayList<ProductDto> result = productController.productPrint();
+        ArrayList<ProductDto> result = productController.productPrint(loginUno);
 
         // 3. 화면 구현
+        ArrayList<Integer> pnoList = new ArrayList<>();
         System.out.println("============= 전체제품조회 페이지 =============");
         System.out.println("번호 | 제품명 | 규격 | 제조사 | 단위 | 가격 | 재고 | 상태");
         for (ProductDto dto : result) {
             System.out.printf("%d. %s %s (%s, %s) %d , %d, %s\n",
                     dto.getPno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit(),
                     dto.getPprice(), dto.getPstock(), dto.isPstatus()?"신품":"중고");
+            pnoList.add(dto.getPno());
         }
         System.out.println("----------------------------------------------\n");
+        return pnoList;
     }
 
     // 3-3) 전체 제품 조회 (판매자 상세 페이지용)
@@ -94,23 +99,27 @@ public class ProductView {
             ArrayList<ProductDto> pResult = productController.productPrint(uno);
             ArrayList<UserDto> uResult = userController.userPrint(uno);
 
-            if (pResult.isEmpty() || uResult.isEmpty()) {
+            // 물품 데이터와 유저 데이터에 대한 검사 항목
+            if (uResult.isEmpty()) {
                 System.out.println("[경고] 존재하지 않는 판매자 번호입니다.");
                 return;
-            }
-            // 3. 화면구현
-            System.out.println("============= 판매자 상세 페이지 =============");
-            System.out.println("번호 | 제품명 | 규격 | 제조사 | 단위 | 가격 | 재고 | 상태");
-            for (ProductDto dto : pResult) {
-                System.out.printf("%d. %s %s (%s, %s) %d , %d, %s\n",
-                        dto.getPno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit(),
-                        dto.getPprice(), dto.getPstock(), dto.isPstatus()?"신품":"중고");
-            }
-            System.out.println("----------------------------------------------\n");
-            System.out.println("사업자명 | 사업자번호 | 사업장주소지");
-            for (UserDto dto : uResult) {
-                System.out.printf("%s | %s | %s\n", dto.getUbname(), dto.getUbnumber(), dto.getUblocation());
-                System.out.printf("☎Tel | %s\n", dto.getUphone());
+            } else if (pResult.isEmpty()) {
+                System.out.println("[안내] 해당 사용자는 물품을 등록한 적이 없습니다.");
+            } else {
+                // 3. 화면구현
+                System.out.println("============= 판매자 상세 페이지 =============");
+                System.out.println("번호 | 제품명 | 규격 | 제조사 | 단위 | 가격 | 재고 | 상태");
+                for (ProductDto dto : pResult) {
+                    System.out.printf("%d. %s %s (%s, %s) %d , %d, %s\n",
+                            dto.getPno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit(),
+                            dto.getPprice(), dto.getPstock(), dto.isPstatus()?"신품":"중고");
+                }
+                System.out.println("----------------------------------------------");
+                System.out.println("사업자명 | 사업자번호 | 사업장주소지");
+                for (UserDto dto : uResult) {
+                    System.out.printf("%s | %s | %s\n", dto.getUbname(), dto.getUbnumber(), dto.getUblocation());
+                    System.out.printf("☎Tel | %s\n", dto.getUphone());
+                }
             }
 
             // 4. 쪽지 입력
@@ -147,11 +156,27 @@ public class ProductView {
 
     // 3-4) 제품 수정
     public void productUpdate(){
-        productPrint();
+        ArrayList<Integer> pnoList = productPrint();
         try {
-            // 1. 입력받기
+            // 1. 입력받기 및 유효성 검사
+            // 제품 조회의 pno 값을 리스트로 받아와 입력받은 pno 값과 비교, 같은 경우에만 다음으로 이동
+            // (자기 제품이 아닌 것도 수정, 삭제하는 것을 방지하는 코드)
             System.out.print("수정할 제품의 번호 > ");
             int pno = scan.nextInt();
+
+            boolean check = false;
+            for (int i=0; i<pnoList.size(); i++) {
+                if (pno == pnoList.get(i)) {
+                    check = true;
+                    break;
+                }
+            }
+
+            if (!check) {
+                System.out.println("[경고] 수정 권한이 없습니다.");
+                return;
+            }
+
             System.out.print("가격 : ");
             int pprice = scan.nextInt();
             System.out.print("재고 : ");
@@ -186,14 +211,22 @@ public class ProductView {
 
     // 3-5) 제품 삭제
     public void productDelete(){
-        productPrint();
+        ArrayList<Integer> pnoList = productPrint();
         try {
             // 1. 입력받기
             System.out.print("삭제할 제품의 번호 > ");
             int pno = scan.nextInt();
 
             // 2. pno 를 컨트롤러에 전달, 리턴값 저장
-            boolean result = productController.productDelete(pno);
+            // 제품 조회의 pno 값을 리스트로 받아와 입력받은 pno 값과 비교, 같은 경우에만 처리
+            // (자기 제품이 아닌 것도 수정, 삭제하는 것을 방지하는 코드)
+            boolean result = false;
+            for (int i=0; i<pnoList.size(); i++) {
+                if (pno == pnoList.get(i)) {
+                    result = productController.productDelete(pno);
+                    break;
+                }
+            }
 
             // 3. 리턴값 출력
             if (result) {
@@ -211,15 +244,15 @@ public class ProductView {
 
     // 3-6) 장바구니 등록
     public void cartAdd(){
+        // 1. controller에게 요청후 결과받기
+        ArrayList<ProductDto> list = productController.productPrint();
+        // 2. 결과에 따른 화면구현
+        System.out.println(" 번호 \t 제품명 \t 규격 \t 제조사 \t 단위  \t\t 가격 \t 재고 \t 상태");
+        for (ProductDto dto : list) { //향상된 for문, for( 항목타입 변수명 : 리스트명) { }
+            String status = dto.isPstatus() ? "신품" : "중고";
+            System.out.printf(" %s \t %s \t %s \t %s \t %s \t %s \t %s \t %s \n", dto.getPno() , dto.getSname() , dto.getSspec() , dto.getSmaker() , dto.getSunit() , dto.getPprice() , dto.getPstock() , status);
+        }
         try {
-            // 1. controller에게 요청후 결과받기
-            ArrayList<ProductDto> list = productController.productPrint();
-            // 2. 결과에 따른 화면구현
-            System.out.println(" 번호 \t 제품명 \t 규격 \t 제조사 \t 단위  \t\t 가격 \t 재고 \t 상태");
-            for (ProductDto dto : list) { //향상된 for문, for( 항목타입 변수명 : 리스트명) { }
-                String status = dto.isPstatus() ? "신품" : "중고";
-                System.out.printf(" %s \t %s \t %s \t %s \t %s \t %s \t %s \t %s \n", dto.getPno() , dto.getSname() , dto.getSspec() , dto.getSmaker() , dto.getSunit() , dto.getPprice() , dto.getPstock() , status);
-            }
             for (;;) {
                 // 1. 입력받기
                 System.out.print("장바구니에 담을 번호를 입력하세요 > ");
@@ -237,7 +270,7 @@ public class ProductView {
                     System.out.println("[경고] 장바구니에 물품을 담지 못했습니다.");
                 }
                 // 3. 장바구니 입력 완료 후 반복 여부 확인
-                String check = "N";
+                String check;
                 for (;;) {
                     System.out.print("계속 담으시겠습니까? [Y/N] ");
                     check = scan.next();

@@ -21,7 +21,6 @@ public class ProductDao {
     private String db_user = "root";
     private String db_password = "1234";
     private Connection conn;
-    private ArrayList<ProductDto> list = new ArrayList<>(); // 제품 목록 역할을 수행하는 ArrayList
     private ArrayList<ProductDto> cart = new ArrayList<>(); // 장바구니 역할을 수행하는 ArrayList
 
     // (*) 데이터베이스 연동
@@ -59,9 +58,10 @@ public class ProductDao {
 
     // 2. 전체 제품 조회 (매개변수 : x)
     public ArrayList<ProductDto> productPrint() {
+        ArrayList<ProductDto> list = new ArrayList<>(); // 제품 목록 역할을 수행하는 ArrayList
         try {
             // 1. 제품 조회 sql문
-            String sql = "select * from product join sample on product.sno = sample.sno";
+            String sql = "select * from product join sample on product.sno = sample.sno order by pno";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. sql문 실행
@@ -75,7 +75,8 @@ public class ProductDao {
                 String sunit = rs.getString("sunit");
                 int pprice = rs.getInt("pprice");
                 int pstock = rs.getInt("pstock");
-                ProductDto record = new ProductDto(pno, sname, sspec, smaker, sunit, pprice, pstock, false);
+                boolean pstatus = rs.getBoolean("pstatus");
+                ProductDto record = new ProductDto(pno, sname, sspec, smaker, sunit, pprice, pstock, pstatus);
                 list.add(record);
             }
             // 5. 실행 후 반환
@@ -87,9 +88,10 @@ public class ProductDao {
 
     // 3. 전체 제품 조회 (매개변수 : int uno)
     public ArrayList<ProductDto> productPrint(int uno) {
+        ArrayList<ProductDto> list = new ArrayList<>(); // 제품 목록 역할을 수행하는 ArrayList
         try {
             // 1. 제품 조회 sql문
-            String sql = "select * from product join sample on product.sno = sample.sno where uno = ?";
+            String sql = "select * from product join sample on product.sno = sample.sno where uno = ? order by pno";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. sql 문에 필요한 데이터 삽입
@@ -142,12 +144,11 @@ public class ProductDao {
     public boolean productDelete(int pno) {
         try {
             // 1. 제품 삭제 sql문
-            String sql = "delete from product where pno = ? and uno = ?";
+            String sql = "delete from product where pno = ?";
             // 2. Statement 준비
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. sql 문에 필요한 데이터 삽입
             ps.setInt(1, pno);
-            ps.setInt(2, loginUno);
             // 4. sql문 실행
             int count = ps.executeUpdate();
             // 5. 실행 후 반환
