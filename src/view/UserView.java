@@ -168,13 +168,15 @@ public class UserView {
         try {
             for (; ; ) {
                 System.out.println("============================ 판매 등록 페이지 ============================");
-                System.out.println("┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌────────────┐");
-                System.out.println("  1. 제품 등록      2. 제품 수정      3. 제품 삭제     4. 제품 조회      5. 홈 화면  ");
-                System.out.println("└─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └────────────┘");
+                System.out.println("┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌────────────┐");
+                System.out.println("  0. 빠른 검색      2. 제품 수정      3. 제품 삭제     4. 제품 조회      5. 홈 화면  ");
+                System.out.println("└─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └────────────┘");
                 System.out.println("========================================================================");
                 System.out.print("  선택 >    ");
                 int selectProduct = scan.nextInt();
-                if (selectProduct == 1) {
+                if (selectProduct == 0){
+                    productView.productSearch();
+                } else if (selectProduct == 1) {
                     productView.productAdd();
                 } else if (selectProduct == 2) {
                     productView.productUpdate();
