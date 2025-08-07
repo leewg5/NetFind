@@ -1,7 +1,6 @@
 package model.dao;
 
 import model.dto.SampleDto;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

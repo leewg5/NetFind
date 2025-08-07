@@ -2,8 +2,6 @@ package controller;
 
 import model.dao.SampleDao;
 import model.dto.SampleDto;
-
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class SampleController {

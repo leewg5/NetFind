@@ -1,11 +1,8 @@
 package view;
 
 import controller.SampleController;
-import model.dao.SampleDao;
 import model.dto.SampleDto;
-
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class SampleView {
