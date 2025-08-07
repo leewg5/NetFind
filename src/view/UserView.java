@@ -1,5 +1,6 @@
 package view;
 
+import controller.ProductController;
 import controller.UserController;
 import model.dto.UserDto;
 
@@ -19,6 +20,7 @@ public class UserView {
 
     // (*) 컨트롤러 싱글톤 호출(
     private UserController userController = UserController.getInstance();
+    private ProductController productController = ProductController.getInstance();
 
     // (*) View 싱글톤 호출
     private ProductView productView = ProductView.getInstance();
@@ -166,9 +168,9 @@ public class UserView {
         try {
             for (; ; ) {
                 System.out.println("============================ 판매 등록 페이지 ============================");
-                System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌────────────┐");
-                System.out.println("   1. 제품 등록         2. 제품 수정        3. 제품 삭제        4. 홈 화면  ");
-                System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └────────────┘");
+                System.out.println("┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌────────────┐");
+                System.out.println("  1. 제품 등록      2. 제품 수정      3. 제품 삭제     4. 제품 조회      5. 홈 화면  ");
+                System.out.println("└─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └────────────┘");
                 System.out.println("========================================================================");
                 System.out.print("  선택 >    ");
                 int selectProduct = scan.nextInt();
@@ -179,6 +181,8 @@ public class UserView {
                 } else if (selectProduct == 3) {
                     productView.productDelete();
                 } else if (selectProduct == 4) {
+                    productView.productPrintDB();
+                } else if (selectProduct == 5) {
                     if (loginUno == 1){
                         adminMain();
                     } else {
@@ -411,11 +415,9 @@ public class UserView {
             if (result) {
                 if (uid.equals("admin")) {
                     System.out.println("[안내] 관리자 로그인 성공");
-                    System.out.println(loginUno); // 나중에 삭제
                     adminMain();
                 } else {
                     System.out.println("[안내] 로그인 성공");
-                    System.out.println(loginUno);
                     main();
                 }
             } else {
@@ -433,6 +435,7 @@ public class UserView {
         userController.logout();
         // 3. 리턴값 출력
         System.out.println("[안내] 로그아웃 되었습니다.");
+        productController.cartDelete(); // 장바구니 삭제
         index();
     }
 

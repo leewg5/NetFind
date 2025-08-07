@@ -5,9 +5,7 @@ import controller.UserController;
 import model.dto.NoteDto;
 import model.dto.UserDto;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class NoteView {

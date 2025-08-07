@@ -338,4 +338,22 @@ public class ProductView {
             System.out.println("[경고] 오류가 발생하였습니다. 관리자에게 문의해주세요.");
         }
     }
+
+    //
+    public void productPrintDB() {
+        // 1. 입력받기 (없음)
+        // 2. 컨트롤러 전달 후 리턴값 저장
+        ArrayList<ProductDto> result = productController.productPrint();
+
+        // 3. 화면 구현
+            System.out.println("============= 전체제품조회 페이지 =============");
+            System.out.println("번호 | 제품명 | 규격 | 제조사 | 단위 | 가격 | 재고 | 상태");
+            for (ProductDto dto : result) {
+                System.out.printf("%d. %s %s (%s, %s) %d , %d, %s\n",
+                        dto.getPno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit(),
+                        dto.getPprice(), dto.getPstock(), dto.isPstatus() ? "신품" : "중고");
+            }
+            System.out.println("----------------------------------------------\n");
+    }
+
 }

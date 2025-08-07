@@ -91,8 +91,8 @@ public class SampleDao {
                 int sno = rs.getInt( "sno" ); // rs.get타입("가져올속성명 or 번호")
                 String sname = rs.getString( "sname" );
                 String sspec = rs.getString( "sspec" );
-                String smaker = rs.getString( "smaker");
-                String sunit = rs.getString( "sunit");
+                String smaker = rs.getString( "smaker" );
+                String sunit = rs.getString( "sunit" );
                 SampleDto sampleDto = new SampleDto( sno , sname , sspec , smaker , sunit );
                 // 3) 생성된 dto를 리스트에 담아주기
                 list.add( sampleDto );
