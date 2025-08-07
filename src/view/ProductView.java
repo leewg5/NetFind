@@ -2,7 +2,6 @@ package view;
 
 import controller.NoteController;
 import controller.ProductController;
-import controller.SampleController;
 import controller.UserController;
 import model.dto.ProductDto;
 import model.dto.UserDto;
@@ -153,8 +152,6 @@ public class ProductView {
         } catch (Exception e) {
             System.out.println("[경고] 오류가 발생하였습니다. 관리자에게 문의해주세요.");
         }
-
-
     } // func end
 
     // 3-4) 제품 수정
