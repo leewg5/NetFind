@@ -137,15 +137,15 @@ public class UserDao {
     // 4.  사용자DB(판매자)의 uno를 받는 사람(nsend)의 FK로 받아, 쪽지 기능을 실행한다.
     // int pno
     // 반환 UserDto
-    public ArrayList<UserDto> userPrint(int pno){
+    public ArrayList<UserDto> userPrint(int number){
         ArrayList<UserDto> list = new ArrayList<>();
         try {
             // 1. SQL 작성
-            String sql = "select p.* , u.* from product p join user u on p.uno = u.uno where p.pno =?";
+            String sql = "select * from user where uno = ?";
             // 2. SQL 기재
             PreparedStatement ps = conn.prepareStatement(sql);
             // 3. SQL 매개변수 대입
-            ps.setInt(1, pno);
+            ps.setInt(1, number);
             // 4. SQL 실행 select라서 executeQuery()
             ResultSet rs = ps.executeQuery();
             // 5. SQL 결과에 따른 로직/리턴/확인 (어떤 내용을 호출/출력할 것인가)
