@@ -168,15 +168,13 @@ public class UserView {
         try {
             for (; ; ) {
                 System.out.println("============================ 판매 등록 페이지 ============================");
-                System.out.println("┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐");
-                System.out.println("  0. 빠른 검색      1. 제품 등록      2. 제품 수정      3. 제품 삭제     4. 제품 조회      5. 홈 화면  ");
-                System.out.println("└─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘");
+                System.out.println("┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐");
+                System.out.println("  1. 제품 등록      2. 제품 수정      3. 제품 삭제     4. 제품 조회      5. 홈 화면  ");
+                System.out.println("└─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘");
                 System.out.println("========================================================================");
                 System.out.print("  선택 >    ");
                 int selectProduct = scan.nextInt();
-                if (selectProduct == 0){
-                    productView.productSearch();
-                } else if (selectProduct == 1) {
+                if (selectProduct == 1) {
                     productView.productAdd();
                 } else if (selectProduct == 2) {
                     productView.productUpdate();
@@ -204,14 +202,16 @@ public class UserView {
         try{
             for(;;){
                 System.out.println("============================ 조회 구매 페이지 ============================");
-                System.out.println("┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌───────────────────┐  ┌───────────┐");
-                System.out.println("  1. 장바구니담기       2. 장바구니확인     3. 장바구니삭제      4. 판매자상세페이지      5. 홈 화면 ");
-                System.out.println("└────────────────┘ └────────────────┘ └────────────────┘ └───────────────────┘  └───────────┘");
+                System.out.println("┌─────────────┐ ┌────────────────┐ ┌────────────────┐ ┌────────────────┐ ┌───────────────────┐  ┌───────────┐");
+                System.out.println("  0. 빠른 검색      1. 장바구니담기       2. 장바구니확인     3. 장바구니삭제      4. 판매자상세페이지      5. 홈 화면 ");
+                System.out.println("└─────────────┘ └────────────────┘ └────────────────┘ └────────────────┘ └───────────────────┘  └───────────┘");
                 System.out.println("========================================================================");
                 System.out.println("* 판매자상세페이지에서 쪽지를 보낼 수 있습니다.");
                 System.out.print("  선택 >    ");
                 int selectCart = scan.nextInt();
-                if (selectCart == 1) {
+                if (selectCart == 0){
+                    productView.productSearch();
+                } else if (selectCart == 1) {
                     productView.cartAdd();
                 } else if (selectCart == 2) {
                     productView.cartPrint();
