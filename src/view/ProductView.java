@@ -353,4 +353,34 @@ public class ProductView {
             System.out.println("----------------------------------------------\n");
     }
 
+    // 빠른 검색 기능
+    public void productSearch() {
+        try {
+            System.out.print("찾고 싶은 제품의 이름을 입력해주세요 : ");
+            String sname = scan.next();
+
+            ArrayList<ProductDto> list = productController.productSearch(sname);
+
+            if (list.isEmpty()) {
+                System.out.println("[안내] 해당 제품명은 존재하지 않습니다.");
+                return;
+            }
+
+            System.out.println("\n============= 검색 결과 =============");
+            System.out.println("번호 | 제품명 | 규격 | 제조사 | 단위 | 가격 | 재고 | 상태");
+            for (ProductDto dto : list) {
+                System.out.printf("%d. %s %s (%s, %s) %d , %d, %s\n",
+                        dto.getPno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit(),
+                        dto.getPprice(), dto.getPstock(), dto.isPstatus()?"신품":"중고");
+            }
+            System.out.println("----------------------------------------------\n");
+        } catch (InputMismatchException e) {
+            System.out.println("[경고] 유효한 값을 입력해주세요.");
+        } catch (Exception e) {
+            System.out.println("[경고] 오류가 발생하였습니다. 관리자에게 문의해주세요.");
+        } finally {
+            scan = new Scanner(System.in);
+        }
+    }
+
 }

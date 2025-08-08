@@ -202,4 +202,37 @@ public class ProductDao {
         cart = new ArrayList<>(); // cart ArrayList를 초기화함
         return true;
     }
+
+    // 9. 검색 기능
+    public ArrayList<ProductDto> productSearch(String name) {
+        ArrayList<ProductDto> list = new ArrayList<>(); // 제품 목록 역할을 수행하는 ArrayList
+        try {
+            // 1. 제품 조회 sql문
+            String sql = "select * from sample join product on sample.sno = product.sno where sname like ? order by pno";
+            // 2. Statement 준비
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, '%'+name+'%');
+            // 3. sql문 실행
+            ResultSet rs = ps.executeQuery();
+            // 4. 레코드를 하나씩 객체로 만들어 list에 삽입
+            if (!rs.next()) return list;
+
+            do {
+                int pno = rs.getInt("pno");
+                String sname = rs.getString("sname");
+                String sspec = rs.getString("sspec");
+                String smaker = rs.getString("smaker");
+                String sunit = rs.getString("sunit");
+                int pprice = rs.getInt("pprice");
+                int pstock = rs.getInt("pstock");
+                boolean pstatus = rs.getBoolean("pstatus");
+                ProductDto record = new ProductDto(pno, sname, sspec, smaker, sunit, pprice, pstock, pstatus);
+                list.add(record);
+            } while (rs.next());
+            // 5. 실행 후 반환
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException("Error", e);
+        }
+    }
 }

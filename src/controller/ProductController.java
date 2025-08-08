@@ -55,4 +55,9 @@ public class ProductController {
     public boolean cartDelete() {
         return dao.cartDelete();
     }
+
+    // 9. 검색 기능
+    public ArrayList<ProductDto> productSearch(String sname) {
+        return dao.productSearch(sname);
+    }
 }
