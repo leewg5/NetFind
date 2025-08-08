@@ -100,26 +100,7 @@ public class SampleDao {
         return list;
     }
 
-    // (4) 샘플번호와 제품번호 비교
-    public boolean sampleProductPrint( int sno ) {
-        // boolean  : 해당 메소드 실행 결과를 true(저장성공) false(저장실패) 반환하기 위한 타입
-
-        try {
-            // 1. SQL 작성한다.
-            String sql = "select * from sample where sno=? ";
-            // 2. SQL 기재한다.
-            PreparedStatement ps = conn.prepareStatement(sql);
-            // 3. SQL 매개변수 대입 , 현재 ? 1개
-            ps.setInt( 1, sno ); // SQL내 1번?에 매개변수로 받은 sno의 값 대입
-            // 4. SQL 실행 , insert/update/delete 은 .executeUpdate();
-            ResultSet rs = ps.executeQuery();
-            // 5. SQL 결과에 따른 로직/리턴/확인
-            if ( rs.next() ) return true; // 1개이상 insert했으면 저장성공
-            return false;   // 1개 이상 insert 못했으면 저장 실패
-        }catch ( Exception e ) { System.out.println(e); } //  catch e
-        return  false; // 예외 발생시 저장 실패
-    }// func e
-
+    // (*) like 검색 : sname에 대응하는 쓰는 제품 조회하기
 
 
 }// class e

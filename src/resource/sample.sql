@@ -176,3 +176,5 @@ WHERE
     p.pno = ?;
     
     select p.* , u.* from product p join user u on p.uno = u.uno where p.pno = 1;
+    
+    select * from sample where sname like "%이블%";
