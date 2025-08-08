@@ -76,10 +76,11 @@ public class ProductView {
         // 3. 화면 구현
         ArrayList<Integer> pnoList = new ArrayList<>();
         System.out.println("============= 전체제품조회 페이지 =============");
-        System.out.println("번호 | 제품명 | 규격 | 제조사 | 단위 | 가격 | 재고 | 상태");
+        System.out.println("번호 | 제품번호 | 제품명 | 규격 | 제조사 | 단위 | 가격 | 재고 | 상태");
+        int num = 1;
         for (ProductDto dto : result) {
-            System.out.printf("%d. %s %s (%s, %s) %d , %d, %s\n",
-                    dto.getPno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit(),
+            System.out.printf("%d. %d | %s %s (%s, %s) %d , %d, %s\n",
+                    num++, dto.getPno(), dto.getSname(), dto.getSspec(), dto.getSmaker(), dto.getSunit(),
                     dto.getPprice(), dto.getPstock(), dto.isPstatus()?"신품":"중고");
             pnoList.add(dto.getPno());
         }
